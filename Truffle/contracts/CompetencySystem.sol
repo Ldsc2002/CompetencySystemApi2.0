@@ -149,6 +149,8 @@ contract CompetencySystem is ERC1155{
         return _knowledgeElements[pos];
     }
     
+
+    
     function getKnowledgeElements() public view returns (Registry[] memory){
         return _knowledgeElements;
     }

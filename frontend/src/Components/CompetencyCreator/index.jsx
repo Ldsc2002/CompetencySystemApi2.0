@@ -4,7 +4,7 @@ import styles from './competencyCreator.module.css';
 import Container from '../Container';
 import ComboBox from '../ComboBox';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+//import Typography from '@material-ui/core/Typography';
 
 const CompetencyCreator = (props) => {
 

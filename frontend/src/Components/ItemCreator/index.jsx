@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { withStyles } from '@material-ui/core/styles';
+//import { withStyles } from '@material-ui/core/styles';
 import styles from './itemCreator.module.css';
 import Button from '@material-ui/core/Button';
 import TextInput from '../TextInput';
@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 
 const ItemCreator = (props) => {
 
-    const [selectedAccount, setSelectedAccount] = useState("")
+    //const [selectedAccount, setSelectedAccount] = useState("")
     const [name, setName] = useState("")
     const [description, setDescription] = useState("")
 
@@ -50,7 +50,20 @@ const ItemCreator = (props) => {
               rows = {8}
             /> 
             <br/>
-            <Button size="medium" variant="outlined" color="secondary">
+            <Button 
+              size="medium" 
+              variant="outlined" 
+              color="secondary"
+              onClick={
+                () => {
+                  ///if (name.length !== 0 || description.length !== 0){
+                    props.createKnowledgeElement(name, description)
+                  /*
+                  } else {
+                    alert("Fill all fields")
+                  }*/
+                }
+              }>
               Crear
             </Button>
           </div>
