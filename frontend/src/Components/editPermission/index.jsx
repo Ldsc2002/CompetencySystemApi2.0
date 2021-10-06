@@ -1,16 +1,13 @@
 import React, {useState} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import styles from './competencyTransfer.module.css';
-import Container from '../Container';
-//import ComboBox from '../ComboBox';
+import styles from './editPermission.module.css';
 import Button from '@material-ui/core/Button';
-//import Typography from '@material-ui/core/Typography';
+import ComboBox from '../ComboBox';
 import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import Container from '../Container';
 
-const CompetencyTransfer = (props) => {
-
+const EditPermission = (props) => {
     const [selectedAccount, setSelectedAccount] = useState("")
     const [description, setDescription] = useState("")
     const [state, setState] = React.useState(true);
@@ -19,12 +16,6 @@ const CompetencyTransfer = (props) => {
       setState(!state);
     };
 
-    const useStyles = makeStyles((theme) => ({
-      margin: {
-        margin: theme.spacing(1),
-      }
-    }));
-
     const config = [
       {
         type:"transferBlock", 
@@ -32,20 +23,14 @@ const CompetencyTransfer = (props) => {
         method: setDescription,
         options: props.accounts
       },
-      {
-        type:"selectListElement", 
-      },
-      
     ]
 
-    const classes = useStyles();
-    
-    return (
+    return (      
       <div className={styles.wrapper}>
-          <p className={styles.title}>Conceder y editar competencias</p>
-          <Typography component="div">
+        <p className={styles.title}>Dar permiso de edición</p>
+        <Typography component="div">
             <Grid component="label" container alignItems="center" spacing={1}>
-              <Grid item>Conceder</Grid>
+              <Grid item>Creador</Grid>
               <Grid item>
                 <Switch
                   checked={state.checkedA}
@@ -54,18 +39,10 @@ const CompetencyTransfer = (props) => {
                   inputProps={{ 'aria-label': 'secondary checkbox' }}
                 />
               </Grid>
-              <Grid item>Editar</Grid>
+              <Grid item>Dueño</Grid>
             </Grid>
           </Typography>
-          <div style={{display:'flex', justifyContent: 'space-between'}}>
-            <Button 
-              className={classes.margin}
-              size="medium" 
-              variant="outlined" 
-              color="secondary">
-              {state ? "Transferir" : "Editar"}
-            </Button>
-          </div>
+          <br/>
           <div style={{display:'flex'}}>    
             {config.map((value, index) => (
               <Container
@@ -80,8 +57,18 @@ const CompetencyTransfer = (props) => {
               />
             ))}     
           </div>
-        </div>
+          <br/>
+          <Button 
+            size="medium" 
+            variant="outlined" 
+            color="secondary"
+            onClick={
+              () => console.log("Prueba")
+            }>
+            consultar
+          </Button>
+      </div>
     );
 }
 
-export default CompetencyTransfer;
+export default EditPermission;

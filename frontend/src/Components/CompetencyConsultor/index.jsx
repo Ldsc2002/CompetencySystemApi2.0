@@ -8,7 +8,7 @@ const CompetencyConsultor = (props) => {
     
     return (      
       <div className={styles.wrapper}>
-        <text className={styles.title}>Consulta de nivel</text>
+        <p className={styles.title}>Consulta de competencias</p>
         <div>
           <ComboBox
               value = {selectedAccount}

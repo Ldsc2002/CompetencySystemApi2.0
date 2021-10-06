@@ -12,7 +12,7 @@ import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex"
+    display: "flex",
   },
   formControl: {
     margin: theme.spacing(3)
@@ -24,12 +24,13 @@ const MultiComboBox = (props) => {
     const classes = useStyles();
   
     const handleChange = (event) => {
-      props.updateMethod({ ...props.value, [event.target.name]: event.target.checked });
+      props.updateMethod({ ...props.value, [event.target.name]: event.target.checked, });
     };
   
     return (
       <>
       <div className={classes.root}>
+        
       <FormControl component="fieldset" className={classes.formControl}>
         <FormLabel component="legend">{props.placeHolder}</FormLabel>
         <FormGroup>

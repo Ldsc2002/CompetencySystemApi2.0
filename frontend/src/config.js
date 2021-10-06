@@ -1,6 +1,8 @@
-export const COMPETENCY_SYSTEM_ADDRESS = '0x775cdC2cdC302e9b79A70CF40bEDE0Bd95ee7806'
 
-export const COMPETENCY_SYSTEM_ABI =   [
+
+export const COMPETENCY_SYSTEM_ADDRESS = '0x714b1c13EC51cb80894636ba184c965792fbD9A7'
+
+export const COMPETENCY_SYSTEM_ABI =  [
   {
     "inputs": [],
     "stateMutability": "nonpayable",
@@ -146,7 +148,8 @@ export const COMPETENCY_SYSTEM_ABI =   [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -170,7 +173,8 @@ export const COMPETENCY_SYSTEM_ABI =   [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -194,6 +198,73 @@ export const COMPETENCY_SYSTEM_ABI =   [
       }
     ],
     "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "ids",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "amounts",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
+      }
+    ],
+    "name": "safeBatchTransferFrom",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
+      }
+    ],
+    "name": "safeTransferFrom",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -231,7 +302,8 @@ export const COMPETENCY_SYSTEM_ABI =   [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -250,7 +322,8 @@ export const COMPETENCY_SYSTEM_ABI =   [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -305,7 +378,8 @@ export const COMPETENCY_SYSTEM_ABI =   [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -330,7 +404,8 @@ export const COMPETENCY_SYSTEM_ABI =   [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -385,7 +460,8 @@ export const COMPETENCY_SYSTEM_ABI =   [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -410,10 +486,16 @@ export const COMPETENCY_SYSTEM_ABI =   [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
       {
         "internalType": "string",
         "name": "statement",
@@ -455,27 +537,23 @@ export const COMPETENCY_SYSTEM_ABI =   [
         "components": [
           {
             "internalType": "string",
-            "name": "statement",
+            "name": "name",
             "type": "string"
           },
           {
-            "internalType": "uint256[]",
-            "name": "knowledgeElement",
-            "type": "uint256[]"
-          },
-          {
-            "internalType": "uint256[]",
-            "name": "dispositions",
-            "type": "uint256[]"
+            "internalType": "string",
+            "name": "statement",
+            "type": "string"
           }
         ],
-        "internalType": "struct CompetencySystem.CompetencyDescription",
+        "internalType": "struct CompetencySystem.Competency",
         "name": "",
         "type": "tuple"
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -485,292 +563,22 @@ export const COMPETENCY_SYSTEM_ABI =   [
         "components": [
           {
             "internalType": "string",
-            "name": "statement",
+            "name": "name",
             "type": "string"
           },
           {
-            "internalType": "uint256[]",
-            "name": "knowledgeElement",
-            "type": "uint256[]"
-          },
-          {
-            "internalType": "uint256[]",
-            "name": "dispositions",
-            "type": "uint256[]"
+            "internalType": "string",
+            "name": "statement",
+            "type": "string"
           }
         ],
-        "internalType": "struct CompetencySystem.CompetencyDescription[]",
+        "internalType": "struct CompetencySystem.Competency[]",
         "name": "",
         "type": "tuple[]"
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "owner",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "skillId",
-        "type": "uint256"
-      }
-    ],
-    "name": "getSkillLevel",
-    "outputs": [
-      {
-        "internalType": "uint256[]",
-        "name": "",
-        "type": "uint256[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "pos",
-        "type": "uint256"
-      }
-    ],
-    "name": "getSkillLevelRecord",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256[]",
-            "name": "value",
-            "type": "uint256[]"
-          },
-          {
-            "internalType": "bool",
-            "name": "byValidAccount",
-            "type": "bool"
-          },
-          {
-            "internalType": "address",
-            "name": "autor",
-            "type": "address"
-          }
-        ],
-        "internalType": "struct CompetencySystem.SkillRecord",
-        "name": "",
-        "type": "tuple"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "from",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "id",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "bytes",
-        "name": "data",
-        "type": "bytes"
-      }
-    ],
-    "name": "safeTransferFrom",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "from",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "ids",
-        "type": "uint256[]"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "amounts",
-        "type": "uint256[]"
-      },
-      {
-        "internalType": "bytes",
-        "name": "data",
-        "type": "bytes"
-      }
-    ],
-    "name": "safeBatchTransferFrom",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "from",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "competencyId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "skillLevels",
-        "type": "uint256[]"
-      },
-      {
-        "internalType": "bytes",
-        "name": "data",
-        "type": "bytes"
-      }
-    ],
-    "name": "awardCompetency",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "from",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "competencyId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "asignTransferRights",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "from",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "competencyId",
-        "type": "uint256"
-      }
-    ],
-    "name": "givePermissionFromOwner",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "from",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "owner",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "competencyId",
-        "type": "uint256"
-      }
-    ],
-    "name": "givePermissionFromCreator",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "from",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "owner",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "competencyId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "skillValues",
-        "type": "uint256[]"
-      }
-    ],
-    "name": "updateSkillValues",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    "type": "function",
+    "constant": true
   }
 ]

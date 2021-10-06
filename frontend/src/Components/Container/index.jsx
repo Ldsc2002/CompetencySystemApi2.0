@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import TextInput from '../TextInput';
 import MultiComboBox from '../MultiComboBox';
 import TransferBlock from '../TransferBlock';
+import SelecListElement from '../SelectListElement';
 
 const useStyles = makeStyles({
   root: {
@@ -51,6 +52,12 @@ const Container = (props) => {
           }
           { props.type === "transferBlock" &&
             <TransferBlock
+              accounts = {props.accounts}
+              options = {props.options}
+            /> 
+          }
+          { props.type === "selectListElement" &&
+            <SelecListElement
             /> 
           }
         </CardContent>

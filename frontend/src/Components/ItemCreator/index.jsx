@@ -21,7 +21,8 @@ const ItemCreator = (props) => {
     
     return (      
       <div className={styles.wrapper}>
-        <text className={styles.title}>Creación de disposiciones y elementos de conocimiento</text><Typography component="div">
+        <p className={styles.title}>Creación de disposiciones y elementos de conocimiento</p>
+        <Typography component="div">
             <Grid component="label" container alignItems="center" spacing={1}>
               <Grid item>Disposiciones</Grid>
               <Grid item>
@@ -56,12 +57,15 @@ const ItemCreator = (props) => {
               color="secondary"
               onClick={
                 () => {
-                  ///if (name.length !== 0 || description.length !== 0){
-                    props.createKnowledgeElement(name, description)
-                  /*
+                  if (name.length !== 0 || description.length !== 0){
+                    if (state) {
+                      props.createDispositions(name, description)
+                    } else {
+                      props.createKnowledgeElement(name, description)
+                    }
                   } else {
                     alert("Fill all fields")
-                  }*/
+                  }
                 }
               }>
               Crear
