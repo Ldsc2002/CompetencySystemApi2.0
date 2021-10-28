@@ -59,9 +59,9 @@ const ItemCreator = (props) => {
                 () => {
                   if (name.length !== 0 || description.length !== 0){
                     if (state) {
-                      props.createDispositions(name, description)
+                      props.createDispositions({"name":name, "meaning":description})
                     } else {
-                      props.createKnowledgeElement(name, description)
+                      props.createKnowledgeElement({"name":name, "meaning":description})
                     }
                   } else {
                     alert("Fill all fields")

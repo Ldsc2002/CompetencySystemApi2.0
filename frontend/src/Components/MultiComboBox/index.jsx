@@ -19,14 +19,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-
 const MultiComboBox = (props) => {
     const classes = useStyles();
-  
     const handleChange = (event) => {
       props.updateMethod({ ...props.value, [event.target.name]: event.target.checked, });
     };
-  
+    
     return (
       <>
       <div className={classes.root}>
@@ -34,7 +32,7 @@ const MultiComboBox = (props) => {
       <FormControl component="fieldset" className={classes.formControl}>
         <FormLabel component="legend">{props.placeHolder}</FormLabel>
         <FormGroup>
-          { props.options &&
+          { ( props.options ) && 
             props.options.map((option, index) => (          
               <FormControlLabel
                 key = {index}

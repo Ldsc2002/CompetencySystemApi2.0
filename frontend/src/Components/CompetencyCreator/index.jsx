@@ -3,16 +3,27 @@ import { makeStyles } from '@material-ui/core/styles';
 import styles from './competencyCreator.module.css';
 import Container from '../Container';
 import ComboBox from '../ComboBox';
+import TextInput from '../TextInput';
 import Button from '@material-ui/core/Button';
 //import Typography from '@material-ui/core/Typography';
 
 const CompetencyCreator = (props) => {
-
+    const [name, setName] = useState("")
     const [selectedAccount, setSelectedAccount] = useState("")
     const [description, setDescription] = useState("")
-    const [knwolageElements, setKnwolageElements] = useState(props.knowledgeElements.map( (value, index) => { return {[index]: false} } ))
-    const [dispositions, setDispositions] = useState(props.dispositions.map( (value, index) => { return {[index]: false} } ))
-    
+    const [knwolageElements, setKnwolageElements] = useState( 
+      (props.knowledgeElements) ? 
+      props.knowledgeElements.map( (value, index) => { return false } ) 
+        : 
+      []
+    )
+    const [dispositions, setDispositions] = useState( 
+      (props.dispositions) ? 
+      props.dispositions.map( (value, index) => { return false } ) 
+        : 
+      []
+    )
+      
     const useStyles = makeStyles((theme) => ({
       margin: {
         margin: theme.spacing(1),
@@ -51,13 +62,19 @@ const CompetencyCreator = (props) => {
     return (
       <div className={styles.wrapper}>
           <p className={styles.title}>Creación de competencias</p>
-          <div style={{display:'flex', justifyContent: 'space-between'}}>
-            <ComboBox
+          <ComboBox
               value = {selectedAccount}
               options = {props.accounts}
               method = {(value) => setSelectedAccount(value)}
               title = {"Seleccione una billetera"}
             /> 
+          <div style={{display:'flex', justifyContent: 'space-between'}}>
+            <TextInput
+                placeHolder = {"Ingrese el nombre"}
+                value = {name}
+                updateMethod = {(newValue) => setName(newValue)}
+                rows = {1}
+              /> 
             <Button 
               className={classes.margin}
               size="medium" 
@@ -65,12 +82,37 @@ const CompetencyCreator = (props) => {
               color="secondary"
               onClick={
                 () => {
-                  if (selectedAccount.length !== 0 && knwolageElements.length !== 0 && dispositions.length !== 0 && description.length !== 0){
-                    const knowledgeValues = (Object.values(knwolageElements).map(
-                      (value, index) => {if (value) return Number(Object.keys(knwolageElements)[index])}))
-                    const dispositionValues =(Object.values(dispositions).map(
-                      (value, index) => {if (value) return Number(Object.keys(dispositions)[index])}))
-                    props.createCompetency(selectedAccount, "Prueba", description, knowledgeValues, dispositionValues)
+                  //console.log(knwolageElements.keys((key) => console.log(key)))
+                  console.log()
+                  console.log(Object.entries(dispositions).filter(entry => entry[1]).map((value) => {return Number(value[0]) + 1}))
+                  console.log(name)
+                  console.log(description)
+
+                  if (knwolageElements.length !== 0 
+                    //&& selectedAccount.length !== 0 
+                    && dispositions.length !== 0 
+                    && name.length !== 0
+                    && description.length !== 0
+                  ){
+                    const knowledgeValues = Object.entries(knwolageElements).filter(
+                      entry => entry[1]
+                    ).map(
+                      (value) => {return Number(value[0]) + 1}
+                    )
+                    const dispositionValues = Object.entries(dispositions).filter(
+                      entry => entry[1]
+                    ).map(
+                      (value) => {return Number(value[0]) + 1}
+                    )
+                    props.createCompetency(
+                      selectedAccount,
+                      {
+                        "name": name,
+                        "statement": description,
+                        "knowledgeElements": knowledgeValues,
+                        "dispositions": dispositionValues
+                      }
+                    )
                   } else {
                     alert("Fill all fields")
                   }

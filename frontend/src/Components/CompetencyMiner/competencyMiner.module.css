@@ -1,0 +1,14 @@
+.wrapper {
+    flex:1;
+    padding: 10px; 
+    border-color: grey;
+    border-width: 1px;
+    border-style: solid; 
+    margin: 2px;
+    border-Radius: 5px;
+}
+
+.title {
+    color: gray;
+    font-size: small;
+}

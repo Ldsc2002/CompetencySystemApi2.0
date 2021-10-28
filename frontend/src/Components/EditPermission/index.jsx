@@ -8,8 +8,10 @@ import Typography from '@material-ui/core/Typography';
 import Container from '../Container';
 
 const EditPermission = (props) => {
-    const [selectedAccount, setSelectedAccount] = useState("")
-    const [description, setDescription] = useState("")
+    
+    const [transferInputs, setTransferInputs] = useState([])
+    const [ownerAccount, setOwnerAccount] = useState([])
+    const [permissions, setPermissions] = useState([])
     const [state, setState] = React.useState(true);
   
     const handleChange = () => {
@@ -19,12 +21,35 @@ const EditPermission = (props) => {
     const config = [
       {
         type:"transferBlock", 
-        state: description,
-        method: setDescription,
-        options: props.accounts
-      },
+        state: transferInputs,
+        method: setTransferInputs,
+        options: props.accounts,
+        extraOptions: props.competencys.map((c) => {return c.name})
+      }
     ]
 
+    const selectedCompetencyName = (transferInputs.length > 0 && transferInputs[2] != "" ) ? transferInputs[2] : "" 
+    const selectedCompetency = props.competencys.filter(competency => competency.name == selectedCompetencyName)[0]
+    const permission = permissions === "Dar permiso" ? true : false
+    const method = async () => {
+      (state) ?
+      await props.methodCreator(
+        ownerAccount,
+        transferInputs[0], 
+        transferInputs[1], 
+        selectedCompetency.blockId,
+        permission
+      )
+      :
+      await props.methodOwner(
+        transferInputs[0], 
+        transferInputs[1], 
+        selectedCompetency.blockId,
+        permission
+      )
+    }
+
+    const PERMISSIONS = ["Dar permiso", "Quitar permiso"]
     return (      
       <div className={styles.wrapper}>
         <p className={styles.title}>Dar permiso de edición</p>
@@ -43,6 +68,20 @@ const EditPermission = (props) => {
             </Grid>
           </Typography>
           <br/>
+          <ComboBox
+              value = {permissions}
+              options = {PERMISSIONS}
+              method = {(value) => setPermissions(value)}
+              title = {"Seleccione el permiso"}
+          /> 
+          { state &&
+          <ComboBox
+              value = {ownerAccount}
+              options = {props.accounts}
+              method = {(value) => setOwnerAccount(value)}
+              title = {"Seleccione la billetera del creador"}
+          /> 
+          }
           <div style={{display:'flex'}}>    
             {config.map((value, index) => (
               <Container
@@ -51,6 +90,7 @@ const EditPermission = (props) => {
                 placeHolder = {value.placeHolder}
                 title = {value.title}
                 options = {value.options}
+                extraOptions = {value.extraOptions}
                 value = {value.state}
                 updateMethod = {value.method}
                 rows = {value.rows}
@@ -63,9 +103,9 @@ const EditPermission = (props) => {
             variant="outlined" 
             color="secondary"
             onClick={
-              () => console.log("Prueba")
+              () => method()
             }>
-            consultar
+            Brindar
           </Button>
       </div>
     );

@@ -11,8 +11,7 @@ import Typography from '@material-ui/core/Typography';
 
 const CompetencyTransfer = (props) => {
 
-    const [selectedAccount, setSelectedAccount] = useState("")
-    const [description, setDescription] = useState("")
+    const [transferInputs, setTransferInputs] = useState([])
     const [state, setState] = React.useState(true);
   
     const handleChange = () => {
@@ -25,15 +24,46 @@ const CompetencyTransfer = (props) => {
       }
     }));
 
+
+    const selectedCompetencyName = (transferInputs.length > 0 && transferInputs[2] != "" ) ? transferInputs[2] : "" 
+    const selectedCompetency = props.competencys.filter(competency => competency.name == selectedCompetencyName)[0]
+    const kes = (props.knowledgeElements && selectedCompetency) 
+       ? props.knowledgeElements.filter(ke => selectedCompetency.knowledgeElements.includes(ke.id)).map(ke => {return ke.name})
+       : []
+
+    const [skillInputs, setSkillInputs] = useState({}) 
+
+    const method = () => {
+      (state) ?
+      props.awardMethod(
+        transferInputs[0], 
+        transferInputs[1], 
+        props.competencys.filter(c => c.name === transferInputs[2])[0].blockId, 
+        Object.values(skillInputs)
+      )
+      :
+      props.updateMethod(
+        transferInputs[0], 
+        transferInputs[1], 
+        props.competencys.filter(c => c.name === transferInputs[2])[0].blockId, 
+        Object.values(skillInputs)
+      )
+    }
+
     const config = [
       {
         type:"transferBlock", 
-        state: description,
-        method: setDescription,
-        options: props.accounts
+        state: transferInputs,
+        method: setTransferInputs,
+        options: props.accounts,
+        extraOptions: props.competencys.map((c) => {return c.name})
       },
       {
         type:"selectListElement", 
+        options: props.skillLevels,
+        extraOptions: kes,
+        state: skillInputs,
+        method: setSkillInputs,
       },
       
     ]
@@ -62,7 +92,8 @@ const CompetencyTransfer = (props) => {
               className={classes.margin}
               size="medium" 
               variant="outlined" 
-              color="secondary">
+              color="secondary"
+              onClick={ () => method() }>
               {state ? "Transferir" : "Editar"}
             </Button>
           </div>
@@ -74,6 +105,7 @@ const CompetencyTransfer = (props) => {
                 placeHolder = {value.placeHolder}
                 title = {value.title}
                 options = {value.options}
+                extraOptions = {value.extraOptions}
                 value = {value.state}
                 updateMethod = {value.method}
                 rows = {value.rows}

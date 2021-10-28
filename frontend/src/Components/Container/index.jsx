@@ -52,12 +52,18 @@ const Container = (props) => {
           }
           { props.type === "transferBlock" &&
             <TransferBlock
-              accounts = {props.accounts}
-              options = {props.options}
+              accounts = {props.options}
+              options = {props.extraOptions}
+              value = {props.value}
+              updateMethod = {(newValue) => props.updateMethod(newValue)}
             /> 
           }
           { props.type === "selectListElement" &&
             <SelecListElement
+              skills = {props.extraOptions}
+              options = {props.options}
+              value = {props.value}
+              updateMethod = {(newValue) => props.updateMethod(newValue)}
             /> 
           }
         </CardContent>

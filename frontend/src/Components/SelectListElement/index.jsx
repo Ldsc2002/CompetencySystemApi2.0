@@ -1,17 +1,23 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styles from './selecListElement.module.css';
 import ComboBox from '../ComboBox';
 
-const TransferBlock = () => {
+const SelecListElement = (props) => {
 
-    const skills = ["skill 1", "skill 2", "skill 3"]
-
+    const handleChange = (value, index) => {
+        let temp = {...props.value};
+        temp[index] = value;
+        props.updateMethod(temp)
+    }
     return (
         <div className={styles.block}>
             {
-                skills.map((skill) => (
+                props.skills.map((skill, index) => (
                     <ComboBox
+                        value = {props.value[index]}
                         title = {skill}
+                        options = {props.options}
+                        method = {(value) => handleChange(value, index)}
                     />   
                 ))
             }
@@ -19,4 +25,4 @@ const TransferBlock = () => {
     )
 }
 
-export default TransferBlock; 
+export default SelecListElement; 

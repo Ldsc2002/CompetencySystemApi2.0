@@ -1,0 +1,337 @@
+{
+  "knowledgeElements": [
+    {
+      "id": 1,
+      "name": "Analytical and Critical Thinking",
+      "meaning": "A mental process of simplifying complex information into basic parts and evaluating results to make proper decisions"
+    },
+    {
+      "id": 2,
+      "name": "Collaboration and Teamwork",
+      "meaning": "Apportion challenging tasks into simpler ones and then work together to complete them efficiently"
+    },
+    {
+      "id": 3,
+      "name": "Ethical and Intercultural Perspectives",
+      "meaning": "Ethical perspectives of the different viewpoints someone uses to view a problem in the context of individual human values"
+    },
+    {
+      "id": 4,
+      "name": "Mathematics and Statistics",
+      "meaning": "Use of numbers and theories abstractly especially in the collection and analysis of numerical data"
+    },
+    {
+      "id": 5,
+      "name": "Multi-Task Prioritization and Management",
+      "meaning": "Processing several issues or tasks at once while arranging them according to importance to do specific one first"
+    },
+    {
+      "id": 6,
+      "name": "Oral Communication and Presentation ",
+      "meaning": "Conveying a message orally using real-time presentations with visual aids related audience interests and goals"
+    },
+    {
+      "id": 7,
+      "name": "Problem Solving and Trouble Shooting",
+      "meaning": "A logical and orderly search for the source of a unit problem and making the unit operational again"
+    },
+    {
+      "id": 8,
+      "name": "Project and Task Organization and Planning",
+      "meaning": "A process to provide decisions about a project concerning organization and planning to achieve a successful result"
+    },
+    {
+      "id": 9,
+      "name": "Quality Assurance / Control",
+      "meaning": "Use of techniques, methods, and processes to identify and prevent defects according to defined quality standards"
+    },
+    {
+      "id": 10,
+      "name": "Relationship Management",
+      "meaning": "A strategy to maintain an ongoing level of engagement usually between a business and its customers or other businesses"
+    }
+  ],
+  "dispositions": [
+    {
+      "id": 1,
+      "name": "Adaptable",
+      "meaning": "Flexible; agile, adjust in response to change "
+    },
+    {
+      "id": 2,
+      "name": "Professional",
+      "meaning": "Professionalism, discretion, ethical, astute"
+    },
+    {
+      "id": 3,
+      "name": "Collaborative",
+      "meaning": "Team player, willing to work with others "
+    },
+    {
+      "id": 4,
+      "name": "Purpose-driven",
+      "meaning": "Goal driven, achieve goals, business acumen"
+    },
+    {
+      "id": 5,
+      "name": "Inventive",
+      "meaning": "Exploratory. Look beyond simple solutions "
+    },
+    {
+      "id": 6,
+      "name": "Responsible",
+      "meaning": "Use judgment, discretion, act appropriately"
+    },
+    {
+      "id": 7,
+      "name": "Meticulous",
+      "meaning": "Attentive to detail; thoroughness, accurate "
+    },
+    {
+      "id": 8,
+      "name": "Responsive",
+      "meaning": "Respectful; react quickly and positively"
+    },
+    {
+      "id": 9,
+      "name": "Passionate",
+      "meaning": "Conviction, strong commitment, compelling "
+    },
+    {
+      "id": 10,
+      "name": "Self-directed",
+      "meaning": "Self-motivated, determination, independent"
+    },
+    {
+      "name": "Prueba",
+      "meaning": "Prueba",
+      "id": 11
+    }
+  ],
+  "competencys": [
+    {
+      "id": 1,
+      "name": "Competency1",
+      "statement": "This is the compentecy 1",
+      "knowledgeElements": [
+        10,
+        9,
+        8
+      ],
+      "dispositions": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Competency2",
+      "statement": "This is the compentecy 2",
+      "knowledgeElements": [
+        7,
+        6,
+        5
+      ],
+      "dispositions": [
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Competency3",
+      "statement": "This is the compentecy 3",
+      "knowledgeElements": [
+        4,
+        3,
+        2
+      ],
+      "dispositions": [
+        7,
+        8,
+        9
+      ]
+    }
+  ],
+  "skillLevels": [
+    {
+      "records": [
+        {
+          "author": "0xf5143ED76303363181706C9765BAfF1385b79703",
+          "isAuthorized": true,
+          "value": [
+            "Remembering",
+            "Remembering",
+            "Remembering"
+          ]
+        }
+      ],
+      "id": 1
+    },
+    {
+      "records": [
+        {
+          "author": "0xf5143ED76303363181706C9765BAfF1385b79703",
+          "isAuthorized": true,
+          "value": [
+            "Remembering",
+            "Understanding",
+            "Applying"
+          ]
+        }
+      ],
+      "id": 2
+    },
+    {
+      "records": [
+        {
+          "author": "0x4674aCCb7c1A23bEa24990CA6ccC60D960E55fD4",
+          "isAuthorized": true,
+          "value": [
+            "Remembering",
+            "Understanding",
+            "Remembering"
+          ]
+        }
+      ],
+      "id": 3
+    },
+    {
+      "records": [
+        {
+          "author": "0x33161a3eacDF740caC2FF5765FB353b9E7a4d0DD",
+          "isAuthorized": true,
+          "value": [
+            "Remembering",
+            "Remembering",
+            "Remembering"
+          ]
+        }
+      ],
+      "id": 4
+    },
+    {
+      "records": [
+        {
+          "author": "0x7509c25409536b81D46cAABd4dC1969EBE796A62",
+          "isAuthorized": true,
+          "value": [
+            "Remembering",
+            "Remembering",
+            "Remembering"
+          ]
+        }
+      ],
+      "id": 5
+    },
+    {
+      "records": [
+        {
+          "author": "0x6FdD2ef5313004cD559aFA45b02504B7F281D43E",
+          "isAuthorized": true,
+          "value": [
+            "Creating",
+            "Creating",
+            "Creating"
+          ]
+        },
+        {
+          "author": "0x6FdD2ef5313004cD559aFA45b02504B7F281D43E",
+          "isAuthorized": true,
+          "value": [
+            "Remembering",
+            "Understanding",
+            "Understanding"
+          ]
+        }
+      ],
+      "id": 6
+    },
+    {
+      "records": [
+        {
+          "author": "0x5B2F487a6dE536a9F9Cc31751dcAc8Bf6524e284",
+          "isAuthorized": false,
+          "value": [
+            "Remembering",
+            "Understanding",
+            "Remembering"
+          ]
+        }
+      ],
+      "id": 7
+    },
+    {
+      "records": [
+        {
+          "author": "0x5B2F487a6dE536a9F9Cc31751dcAc8Bf6524e284",
+          "isAuthorized": false,
+          "value": [
+            "Remembering",
+            "Remembering",
+            "Remembering"
+          ]
+        }
+      ],
+      "id": 8
+    },
+    {
+      "records": [
+        {
+          "author": "0x7509c25409536b81D46cAABd4dC1969EBE796A62",
+          "isAuthorized": true,
+          "value": [
+            "Remembering",
+            "Applying",
+            "Understanding"
+          ]
+        }
+      ],
+      "id": 9
+    },
+    {
+      "records": [
+        {
+          "author": "0x5B2F487a6dE536a9F9Cc31751dcAc8Bf6524e284",
+          "isAuthorized": false,
+          "value": [
+            "Understanding",
+            "Remembering",
+            "Remembering"
+          ]
+        }
+      ],
+      "id": 10
+    },
+    {
+      "records": [
+        {
+          "author": "0x6FdD2ef5313004cD559aFA45b02504B7F281D43E",
+          "isAuthorized": true,
+          "value": [
+            "Understanding",
+            "Understanding",
+            "Understanding"
+          ]
+        }
+      ],
+      "id": 11
+    },
+    {
+      "records": [
+        {
+          "author": "0x6FdD2ef5313004cD559aFA45b02504B7F281D43E",
+          "isAuthorized": true,
+          "value": [
+            "Understanding",
+            "Understanding",
+            "Understanding"
+          ]
+        }
+      ],
+      "id": 12
+    }
+  ]
+}
