@@ -31,6 +31,7 @@ import {
   getSkillLevel,
   patchSkillLevel
 } from './Components/functions'
+
 //ganache-cli --gasLimit=0x1fffffffffffff --gasPrice=0
 //$ json-server --watch db.json --port 3004
 
