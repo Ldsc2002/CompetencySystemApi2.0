@@ -31,7 +31,9 @@ const MultiComboBox = (props) => {
         
       <FormControl component="fieldset" className={classes.formControl}>
         <FormLabel component="legend">{props.placeHolder}</FormLabel>
+        <br/>
         <FormGroup>
+          <div style = {{height: props.width ? props.width : 160, overflowY:'scroll'}}>
           { ( props.options ) && 
             props.options.map((option, index) => (          
               <FormControlLabel
@@ -43,6 +45,7 @@ const MultiComboBox = (props) => {
               />
             ))
           }
+          </div>
         </FormGroup>
       </FormControl>
     </div>

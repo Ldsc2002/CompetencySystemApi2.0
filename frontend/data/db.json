@@ -49,6 +49,16 @@
       "id": 10,
       "name": "Relationship Management",
       "meaning": "A strategy to maintain an ongoing level of engagement usually between a business and its customers or other businesses"
+    },
+    {
+      "name": "Elemento de conocim",
+      "meaning": "",
+      "id": 11
+    },
+    {
+      "name": "Elemento de conocim",
+      "meaning": "",
+      "id": 12
     }
   ],
   "dispositions": [
@@ -106,6 +116,36 @@
       "name": "Prueba",
       "meaning": "Prueba",
       "id": 11
+    },
+    {
+      "name": "Disposicion de prueba",
+      "meaning": "Esta es una disposición de prueba",
+      "id": 12
+    },
+    {
+      "name": "Disposicion de prueba 2",
+      "meaning": "Esta es una disposición de prueba",
+      "id": 13
+    },
+    {
+      "name": "Elemento de conocim",
+      "meaning": "",
+      "id": 14
+    },
+    {
+      "name": "Prueba de reload",
+      "meaning": "Prueba de realod",
+      "id": 15
+    },
+    {
+      "name": "Prueba de reload 2",
+      "meaning": "Prueba de reload 2",
+      "id": 16
+    },
+    {
+      "name": "Prueba de reload 3",
+      "meaning": "Prueba de reload 3",
+      "id": 17
     }
   ],
   "competencys": [
@@ -153,6 +193,64 @@
         8,
         9
       ]
+    },
+    {
+      "name": "Competencia de prueba",
+      "statement": "Esta es la competencia de prueba",
+      "knowledgeElements": [
+        1,
+        2,
+        3
+      ],
+      "dispositions": [
+        1,
+        2,
+        3
+      ],
+      "id": 4
+    },
+    {
+      "name": "Competencia de prueba 2",
+      "statement": "Compentecia de prueba 2 ",
+      "knowledgeElements": [
+        1,
+        3
+      ],
+      "dispositions": [
+        1,
+        3
+      ],
+      "id": 5
+    },
+    {
+      "name": "Competnecia de prueba 3",
+      "statement": "Competnecia de prueba 3",
+      "knowledgeElements": [
+        1,
+        2,
+        3
+      ],
+      "dispositions": [
+        1,
+        3,
+        4
+      ],
+      "id": 6
+    },
+    {
+      "name": "Aja",
+      "statement": "Aja",
+      "knowledgeElements": [
+        1,
+        2,
+        3
+      ],
+      "dispositions": [
+        2,
+        3,
+        4
+      ],
+      "id": 7
     }
   ],
   "skillLevels": [

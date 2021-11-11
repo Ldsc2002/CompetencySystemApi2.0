@@ -6,6 +6,7 @@ import TextInput from '../TextInput';
 import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import AlertButton from '../AlertButton';
 
 const ItemCreator = (props) => {
 
@@ -19,9 +20,28 @@ const ItemCreator = (props) => {
       setState(!state);
     };
     
+    const method = async () => {
+      if (name.replace.length !== 0 && description.length !== 0){
+        if (state) {
+          props.createDispositions({"name":name, "meaning":description})
+          return {"title": "Elemento creado", "text": "La disposición ha sido creada"}
+        } else {
+          props.createKnowledgeElement({"name":name, "meaning":description})
+          return {"title": "Elemento creado", "text": "El elemento de conocimiento ha sido creado"}
+        }
+      } else {
+        return {"title": "Error", "text": "Ingrese toda la infomación en los campos"}
+      }
+    }
+
     return (      
       <div className={styles.wrapper}>
+        <div style={{display:"flex", justifyContent: "space-between", width: '100%'}}>
         <p className={styles.title}>Creación de disposiciones y elementos de conocimiento</p>
+        <AlertButton
+          text={"?"}
+        />
+        </div>
         <Typography component="div">
             <Grid component="label" container alignItems="center" spacing={1}>
               <Grid item>Disposiciones</Grid>
@@ -51,25 +71,10 @@ const ItemCreator = (props) => {
               rows = {8}
             /> 
             <br/>
-            <Button 
-              size="medium" 
-              variant="outlined" 
-              color="secondary"
-              onClick={
-                () => {
-                  if (name.length !== 0 || description.length !== 0){
-                    if (state) {
-                      props.createDispositions({"name":name, "meaning":description})
-                    } else {
-                      props.createKnowledgeElement({"name":name, "meaning":description})
-                    }
-                  } else {
-                    alert("Fill all fields")
-                  }
-                }
-              }>
-              Crear
-            </Button>
+            <AlertButton
+              text={"Crear"}
+              method={(value) => method(value)}
+          />
           </div>
       </div>
     );

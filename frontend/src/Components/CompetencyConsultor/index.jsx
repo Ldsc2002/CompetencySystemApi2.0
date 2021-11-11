@@ -31,14 +31,19 @@ const CompetencyConsultor = (props) => {
           "dispositions": dispositions
         }
       } else {
-        alert("Seleccione un campo")
+        return {"title": "Error", "text": "Seleccione un campo"}
       }
     }
 
   
     return (      
-      <div className={styles.wrapper}>
-        <p className={styles.title}>Consulta de competencias</p>
+      <div className={styles.wrapper}> 
+      <div style={{display:"flex", justifyContent: "space-between", width: '100%'}}>
+      <p className={styles.title}>Consulta de competencias</p>
+      <AlertButton
+        text={"?"}
+      />
+      </div>
         <div>
           <ComboBox
               value = {selectedCompetency}

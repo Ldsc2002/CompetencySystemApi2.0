@@ -4,7 +4,7 @@ import styles from './competencyTransfer.module.css';
 import Container from '../Container';
 //import ComboBox from '../ComboBox';
 import Button from '@material-ui/core/Button';
-//import Typography from '@material-ui/core/Typography';
+import AlertButton from '../AlertButton';
 import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -72,7 +72,12 @@ const CompetencyTransfer = (props) => {
     
     return (
       <div className={styles.wrapper}>
-          <p className={styles.title}>Conceder y editar competencias</p>
+        <div style={{display:"flex", justifyContent: "space-between", width: '100%'}}>
+        <p className={styles.title}>Conceder y editar competencias</p>
+        <AlertButton
+          text={"?"}
+        />
+        </div>
           <Typography component="div">
             <Grid component="label" container alignItems="center" spacing={1}>
               <Grid item>Conceder</Grid>

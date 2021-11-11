@@ -1,4 +1,4 @@
-export const COMPETENCY_SYSTEM_ADDRESS = '0x6905f6666Efb8732176dd496afb07eCE89E7FC86'
+export const COMPETENCY_SYSTEM_ADDRESS = '0xe4145C08E3ffD33Ecf54f54E5270BaB836481E80'
 
 export const COMPETENCY_SYSTEM_ABI = [
   {
@@ -691,6 +691,31 @@ export const COMPETENCY_SYSTEM_ABI = [
         "type": "address"
       },
       {
+        "internalType": "uint24",
+        "name": "competencyId",
+        "type": "uint24"
+      }
+    ],
+    "name": "getTransferRights",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
         "internalType": "address",
         "name": "to",
         "type": "address"
@@ -710,5 +735,30 @@ export const COMPETENCY_SYSTEM_ABI = [
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "internalType": "uint24",
+        "name": "competencyId",
+        "type": "uint24"
+      }
+    ],
+    "name": "isComptencyRepresentative",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
   }
 ]

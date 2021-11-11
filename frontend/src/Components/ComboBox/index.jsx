@@ -17,6 +17,13 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
       minWidth: 200,
     },
+    select: {
+        width: props.width ? props.width : 350,
+        '&::placeholder': {
+            textOverflow: 'ellipsis !important',
+        }
+    }
+
   }));
 
 const classes = useStyles();
@@ -25,10 +32,15 @@ return(<>
         <InputLabel id="demo-simple-select-label">{props.title}</InputLabel>
         <Select
             labelId="demo-simple-select-label"
+            className={classes.select}
             //id="demo-simple-select"
-            autoWidth={true}
+            autoWidth={false}
             value={props.value}
             onChange={handleChange}
+            InputLabelProps={{
+                style: {
+                  textOverflow: 'ellipsis',
+                } }}
             >
             { props.options &&
                 props.options.map(

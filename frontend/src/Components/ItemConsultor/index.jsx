@@ -27,13 +27,18 @@ const ItemConsultor = (props) => {
         const result = state ? await props.dispositionsMethod(obj.id) : await props.knowledgeElementsMethod(obj.id)
         return {"title": result.name, "text": result.meaning }
       } else {
-        alert("Seleccione un campo")
+        return {"title": "Error", "text": "Seleccione un campo"}
       }
     }
 
     return (      
       <div className={styles.wrapper}>
+        <div style={{display:"flex", justifyContent: "space-between", width: '100%'}}>
         <p className={styles.title}>Consulta de disposiciones y elementos de conocimiento</p>
+        <AlertButton
+          text={"?"}
+        />
+        </div>
         <Typography component="div">
             <Grid component="label" container alignItems="center" spacing={1}>
               <Grid item>Disposiciones</Grid>

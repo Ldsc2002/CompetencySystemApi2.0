@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import ComboBox from '../ComboBox';
 import AlertButton from '../AlertButton';
 import TextField from "@material-ui/core/TextField";
+import CompetencyConsultor from '../CompetencyConsultor';
 
 const CompetencyMiner = (props) => {
     const [selectedCompetency, setSelectedCompetency] = useState("")
@@ -21,16 +22,26 @@ const CompetencyMiner = (props) => {
         const array = props.competencys;
         const obj = array.find( ({ name }) => name === selectedCompetency )
         const result = await props.competencysMethod(selectedAccount, obj.blockId, amount)
-
+        console.log("Recibi", result)
+        if (result == undefined){
+          return {"title": "Elemento creado", "text": "La competencia han sido minadas"}
+        } else {
+          return {"title": "Error", "text": result}  
+        }
       } else {
-        alert("Seleccione un campo")
+        return {"title": "Error", "text": "Seleccione una competencia"}
       }
     }
 
   
     return (      
       <div className={styles.wrapper}>
+        <div style={{display:"flex", justifyContent: "space-between", width: '100%'}}>
         <p className={styles.title}>Minar competencias</p>
+        <AlertButton
+          text={"?"}
+        />
+        </div>
         <div>          
           <ComboBox
             value = {selectedAccount}
@@ -48,8 +59,9 @@ const CompetencyMiner = (props) => {
           <br/>
           <TextField
             id="standard-number"
-            label="Number"
+            label="Cantidad"
             type="number"
+            style = {{marginLeft:6}}
             value={amount}
             onChange={handleChange}
           />

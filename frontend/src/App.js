@@ -14,6 +14,8 @@ import BalanceConsultor from './Components/BalanceConsultor';
 import SkillConsultor from './Components/SkillConsultor';
 import PermissionConsultor from './Components/PermissionConsultor';
 import Button from '@material-ui/core/Button';
+import ConsultTransferRights from './Components/ConsultTransferRights';
+import TransferRights from './Components/TransferRights';
 import { 
   getKnowledgeElements ,
   createKnowledgeElements, 
@@ -34,6 +36,8 @@ import {
 
 const SKILLLEVELS = [ "Remembering", "Understanding", "Applying", "Analyzing", "Evaluating", "Creating"]
 
+
+
 class App extends Component {
 
   componentWillMount() {
@@ -49,10 +53,7 @@ class App extends Component {
     const competencySystem = new web3.eth.Contract(COMPETENCY_SYSTEM_ABI, COMPETENCY_SYSTEM_ADDRESS)
     this.setState({ competencySystem })
     //Get Json server data
-    const kes = await getKnowledgeElements();
-    this.setState({ knowledgeElements: kes })
-    const dis = await getDispositions();
-    this.setState({ dispositions: dis })
+    this.loadData() 
     let com = await getCompetencys();
     const competencys = await this.state.competencySystem.methods.getCompetencys().call({from : this.state.account})
     if (competencys.length > 0){
@@ -61,13 +62,22 @@ class App extends Component {
           (c, i) => {
             if (c[0] == competency.id){
               return i
-            } 
+            } else {
+              return undefined
+            }
           }).find((element) => element !== undefined)
         com[index]["blockId"] = id
       })
     }
     this.setState({ competencys: com })
     this.setState({ loading: false })
+  }
+
+  async loadData() {
+    const kes = await getKnowledgeElements();
+    this.setState({ knowledgeElements: kes })
+    const dis = await getDispositions();
+    this.setState({ dispositions: dis })
   }
 
   constructor(props) {
@@ -80,7 +90,6 @@ class App extends Component {
       account : '',
       loading: true
     }
-
     //GETS
     this._createCompetency = this._createCompetency.bind(this)
     this._consultBalance = this._consultBalance.bind(this)
@@ -92,6 +101,10 @@ class App extends Component {
     this._consultPermissionFromOwner = this._consultPermissionFromOwner.bind(this)
     this._givePermissionFromCreator = this._givePermissionFromCreator.bind(this)
     this._givePermissionFromOwner = this._givePermissionFromOwner.bind(this)
+    this._consultTransferRights = this._consultTransferRights.bind(this)
+    this._isCompetencyRepresentative = this._isCompetencyRepresentative.bind(this)
+    this._asignTransferRights = this._asignTransferRights.bind(this)
+    this._makeComptencyRepresentative = this._makeComptencyRepresentative.bind(this)
     this.fill = this.fill.bind(this)
   }
 
@@ -172,16 +185,25 @@ class App extends Component {
   }
  
   async _mintCompetency(account, competencyId, amount){
-    this.setState({ loading: true })
+    let response;
+    //this.setState({ loading: true })
     //console.log("valuesMint", account, competencyId, amount)
-    this.state.competencySystem.methods.mintCompentecy(
-      account, competencyId, amount
-    ).send({from : account}).then(
-      function(receipt){
-        console.log(receipt)
-      }
-    )
-    this.setState({ loading: false })
+      this.state.competencySystem.methods.mintCompentecy(
+        account, competencyId, amount
+      ).send({from : account}).then(
+        function(receipt){
+          //console.log(receipt)
+          response = null
+          return response
+        },
+        function(reason){
+          //console.log(reason)
+          response = reason.message.substring(65).trim()//Fix
+          return response
+        }
+      )
+    //this.setState({ loading: false })
+    return response
   }
 
   async _awardCompetency(from, to, competencyId, skillValues){
@@ -300,6 +322,42 @@ class App extends Component {
     //return response
   }
 
+  async _consultTransferRights(from, competencyId){
+    const response = await this.state.competencySystem.methods.getTransferRights(from, competencyId).call({from : this.state.account})
+    console.log(response)
+    return response
+  }
+
+  async _isCompetencyRepresentative(from, competencyId){
+    const response = await this.state.competencySystem.methods.isComptencyRepresentative(from, competencyId).call({from : this.state.account})
+    console.log(response)
+    return response
+  }
+
+  async _asignTransferRights(from, to, competencyId, amount){
+    this.setState({ loading: true })
+    const response = await this.state.competencySystem.methods.asignTransferRights(
+      from, to, competencyId, amount
+    ).send({from : from}).then(
+      function(receipt){
+        console.log(receipt)
+      }
+    )
+    this.setState({ loading: false })
+  }
+
+  async _makeComptencyRepresentative(from, to, competencyId, permission){
+    this.setState({ loading: true })
+    const response = await this.state.competencySystem.methods.makeComptencyRepresentative(
+      from, to, competencyId, permission
+    ).send({from : from}).then(
+      function(receipt){
+        console.log(receipt)
+      }
+    )
+    this.setState({ loading: false })
+  }
+
   /*//////////////////////////////  ////////////////////////// */
 
 
@@ -326,17 +384,20 @@ class App extends Component {
               dispositions = {this.state.dispositions ? this.state.dispositions : []}
               createCompetency = {this._createCompetency}
             />
-            <div style={{display: 'flex', flexDirection: 'column'}}>
-              <ItemCreator
-                createKnowledgeElement = { (value) => createKnowledgeElements(value) }
-                createDispositions = { (value) => createDispositions(value) }
-              />  
-              <CompetencyMiner 
-                competencys = {this.state.competencys ? this.state.competencys  : []}
-                accounts = {this.state.accounts}         
-                competencysMethod = { (value1, value2, value3) => this._mintCompetency(value1, value2, value3) }
-              />
-            </div>
+             <ItemCreator
+              createKnowledgeElement = { (value) => {
+                this.setState({ loading: true })
+                createKnowledgeElements(value) 
+                this.loadData()
+                this.setState({ loading: false })
+              }}
+              createDispositions = { (value) => { 
+                this.setState({ loading: true })
+                createDispositions(value) 
+                this.loadData()
+                this.setState({ loading: false })
+              }}
+            />
             <div style={{display: 'flex', flexDirection: 'column'}}>
               <ItemConsultor // Permisos de edición
                 accounts = {this.state.accounts}
@@ -351,11 +412,37 @@ class App extends Component {
                 dispositions = {this.state.dispositions ? this.state.dispositions : []}
                 competencysMethod = { (value) => getCompetency(value) }
               />  
+            </div>        
+          </div>
+          <div style={{display: 'flex'}}>
+            <CompetencyMiner 
+              competencys = {this.state.competencys ? this.state.competencys  : []}
+              accounts = {this.state.accounts}         
+              competencysMethod = { (value1, value2, value3) => this._mintCompetency(value1, value2, value3) }
+            />
+            <div style={{display: 'flex', flexDirection: 'column'}}>
               <BalanceConsultor
                 accounts = {this.state.accounts} 
                 balanceMethod = {this._consultBalance}
               />
-            </div>        
+              <SkillConsultor // Permisos de edición
+                accounts = {this.state.accounts}
+                competencys = {this.state.competencys ? this.state.competencys  : []}
+                method = {this._consultSkillLevel}
+              />
+            </div>  
+            <TransferRights // Permisos de edición
+              accounts = {this.state.accounts}
+              competencys = {this.state.competencys ? this.state.competencys  : []}
+              methodRights = {this._asignTransferRights}
+              methodRepresentative = {this._makeComptencyRepresentative}
+            /> 
+            <ConsultTransferRights // Permisos de edición
+              accounts = {this.state.accounts}
+              competencys = {this.state.competencys ? this.state.competencys  : []}
+              methodRights = {this._consultTransferRights}
+              methodRepresentative = {this._isCompetencyRepresentative}
+            />  
           </div>
           <div style={{display: 'flex'}}>
             <CompetencyTransfer
@@ -377,12 +464,7 @@ class App extends Component {
               competencys = {this.state.competencys ? this.state.competencys  : []}
               methodOwner = {this._consultPermissionFromOwner}
               methodCreator = {this._consultPermissionFromCreator}
-            />   
-            <SkillConsultor // Permisos de edición
-              accounts = {this.state.accounts}
-              competencys = {this.state.competencys ? this.state.competencys  : []}
-              method = {this._consultSkillLevel}
-            />  
+            />    
           </div>
         </>
         }

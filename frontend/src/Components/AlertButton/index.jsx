@@ -8,8 +8,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import List from '@material-ui/core/List';
 import ListItemText from '@material-ui/core/ListItemText';
 
-
 export default function AlertButton(props) {
+
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("")
   const [text, setText] = useState("")
@@ -40,7 +40,7 @@ export default function AlertButton(props) {
   return (
     <div>
       <Button               
-        size="medium" 
+        size= { props.text === "?" ? "small" : "medium"}
         color="secondary"
         variant="outlined"
         onClick={method}>
@@ -60,18 +60,32 @@ export default function AlertButton(props) {
             {text}
           </DialogContentText>
           { knowledgeElements.length > 0 &&
+          <>
+          <h3>
+            {"Elementos de conocimiento"}
+          </h3>
           <List sx={{ pt: 0 }}>
             {knowledgeElements.map((knowledgeElement, index) => (
-              <ListItemText key = {index} primary={knowledgeElement} />
+              <DialogContentText key = {index} id="alert-dialog-description">
+                {knowledgeElement}
+              </DialogContentText>
             ))}
           </List>
+          </>
           }          
           { dispositions.length > 0 &&
+          <>
+          <h3>
+            {"Disposiciones"}
+          </h3>
             <List sx={{ pt: 0 }}>
               {dispositions.map((disposition, index) => (
-                <ListItemText key = {index} primary={disposition} />
+                <DialogContentText key = {index} id="alert-dialog-description">
+                {disposition}
+                </DialogContentText>
               ))}
             </List>
+          </>
           }
           { balance.length > 0 &&
             <List sx={{ pt: 0 }}>

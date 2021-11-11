@@ -14,6 +14,7 @@ const SelecListElement = (props) => {
             {
                 props.skills.map((skill, index) => (
                     <ComboBox
+                        width = {250}
                         value = {props.value[index]}
                         title = {skill}
                         options = {props.options}

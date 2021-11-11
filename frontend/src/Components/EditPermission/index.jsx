@@ -6,6 +6,7 @@ import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '../Container';
+import AlertButton from '../AlertButton';
 
 const EditPermission = (props) => {
     
@@ -52,7 +53,12 @@ const EditPermission = (props) => {
     const PERMISSIONS = ["Dar permiso", "Quitar permiso"]
     return (      
       <div className={styles.wrapper}>
+        <div style={{display:"flex", justifyContent: "space-between", width: '100%'}}>
         <p className={styles.title}>Dar permiso de edición</p>
+        <AlertButton
+          text={"?"}
+        />
+        </div>
         <Typography component="div">
             <Grid component="label" container alignItems="center" spacing={1}>
               <Grid item>Creador</Grid>
@@ -67,13 +73,7 @@ const EditPermission = (props) => {
               <Grid item>Dueño</Grid>
             </Grid>
           </Typography>
-          <br/>
-          <ComboBox
-              value = {permissions}
-              options = {PERMISSIONS}
-              method = {(value) => setPermissions(value)}
-              title = {"Seleccione el permiso"}
-          /> 
+          <div style={{display: 'flex', flexDirection: 'row'}}>
           { state &&
           <ComboBox
               value = {ownerAccount}
@@ -82,6 +82,13 @@ const EditPermission = (props) => {
               title = {"Seleccione la billetera del creador"}
           /> 
           }
+          </div>
+          <ComboBox
+              value = {permissions}
+              options = {PERMISSIONS}
+              method = {(value) => setPermissions(value)}
+              title = {"Seleccione el permiso"}
+          /> 
           <div style={{display:'flex'}}>    
             {config.map((value, index) => (
               <Container

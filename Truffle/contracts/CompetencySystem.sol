@@ -188,7 +188,7 @@ contract CompetencySystem is ERC1155{
         uint24 competencyId,
         uint24 skillValuesId
         //bytes memory data
-    ) competencyExist(competencyId) /*canTransfer(competencyId, 1, from)*/ public {
+    ) competencyExist(competencyId) /*canTransfer(competencyId, 1, from)*/ public { //has enought to transfer
         /*
         require(
             from == _msgSender() || isApprovedForAll(from, _msgSender()),
@@ -232,7 +232,7 @@ contract CompetencySystem is ERC1155{
         address from, //Who is updating the skill Values
         address owner,
         uint24 competencyId 
-    ) public view returns (bool){
+    ) competencyExist(competencyId) public view returns (bool){
         return (_canEditByCreator[keccak256(abi.encodePacked(competencyId, owner))][from] || _competencyRepresentative[competencyId][from] || from == _competencyCreator[competencyId]) ;
     }
     
@@ -240,21 +240,10 @@ contract CompetencySystem is ERC1155{
         address from, //Who is updating the skill Values
         address owner,
         uint24 competencyId 
-    ) public view returns (bool){
+    ) competencyExist(competencyId) public view returns (bool){
         return (_canEditByOwner[keccak256(abi.encodePacked(competencyId, owner))][from]) ;
     }
 
-    /*
-    //Dosent allow operator
-    function updateSkillValues(
-        address from, //Who is updating the skill Values
-        address owner,
-        uint24 skillValuesId, //each number represents a value
-        uint24 competencyId
-    ) competencyExist(competencyId)  hasCompetency(owner, competencyId) canEditByOwner(from, owner, competencyId) public {
-        _setSkillLevel( owner,competencyId, skillValuesId);
-    }*/
-    
     function asignTransferRights(
         address from,
         address to,
@@ -269,6 +258,13 @@ contract CompetencySystem is ERC1155{
         _safeTransferFrom(from, to, competencyId, amount, "");
         _canTransfer[keccak256(abi.encodePacked(competencyId, from))] = amount;
     }
+
+    function getTransferRights(
+        address from,
+        uint24 competencyId
+    ) competencyExist(competencyId) view public returns (uint){
+        return _canTransfer[keccak256(abi.encodePacked(competencyId, from))];
+    }
     
     function makeComptencyRepresentative(
         address from,
@@ -277,5 +273,12 @@ contract CompetencySystem is ERC1155{
         bool permission
     ) competencyExist(competencyId) isCompetencyCreator(from, competencyId) public {
         _competencyRepresentative[competencyId][to] = permission;
+    }
+
+    function isComptencyRepresentative(
+        address from,
+        uint24 competencyId
+    ) competencyExist(competencyId) view public returns (bool){
+        return  _competencyRepresentative[competencyId][from];
     }   
 }

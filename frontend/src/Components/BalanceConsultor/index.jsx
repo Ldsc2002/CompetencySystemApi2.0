@@ -24,7 +24,12 @@ const BalanceConsultor = (props) => {
 
     return (      
       <div className={styles.wrapper}>
+        <div style={{display:"flex", justifyContent: "space-between", width: '100%'}}>
         <p className={styles.title}>Consultar Balance</p>
+        <AlertButton
+          text={"?"}
+        />
+        </div>
         <div>          
           <ComboBox
             value = {selectedAccount}

@@ -7,6 +7,7 @@ import TextInput from '../TextInput';
 import MultiComboBox from '../MultiComboBox';
 import TransferBlock from '../TransferBlock';
 import SelecListElement from '../SelectListElement';
+import TransferBlockRedux from '../TransferBlockRedux';
 
 const useStyles = makeStyles({
   root: {
@@ -52,6 +53,14 @@ const Container = (props) => {
           }
           { props.type === "transferBlock" &&
             <TransferBlock
+              accounts = {props.options}
+              options = {props.extraOptions}
+              value = {props.value}
+              updateMethod = {(newValue) => props.updateMethod(newValue)}
+            /> 
+          }
+          { props.type === "transferBlockRedux" &&
+            <TransferBlockRedux
               accounts = {props.options}
               options = {props.extraOptions}
               value = {props.value}

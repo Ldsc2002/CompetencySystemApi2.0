@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import styles from './permissionConsultor.module.css';
+import styles from './consultTransferRights.module.css';
 import Button from '@material-ui/core/Button';
 import ComboBox from '../ComboBox';
 import Switch from '@material-ui/core/Switch';
@@ -7,19 +7,19 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import AlertButton from '../AlertButton';
 import Container from '../Container';
+import TextField from "@material-ui/core/TextField";
 
-const PermissionConsultor = (props) => {
+const ConsultTransferRights = (props) => {
 
   const [transferInputs, setTransferInputs] = useState([])
   const [state, setState] = React.useState(true);
-
   const handleChange = () => {
     setState(!state);
   };
 
   const config = [
     {
-      type:"transferBlock", 
+      type:"transferBlockRedux", 
       state: transferInputs,
       method: setTransferInputs,
       options: props.accounts,
@@ -27,26 +27,27 @@ const PermissionConsultor = (props) => {
     },
   ]
 
-  const selectedCompetencyName = (transferInputs.length > 0 && transferInputs[2] != "" ) ? transferInputs[2] : "" 
+  const selectedCompetencyName = (transferInputs.length > 0 && transferInputs[1] != "" ) ? transferInputs[1] : "" 
   const selectedCompetency = props.competencys.filter(competency => competency.name == selectedCompetencyName)[0]
 
   const method = async () => {
     let response
     (state) ?
-    response = await props.methodCreator(
+    response = await props.methodRepresentative(
       transferInputs[0], 
-      transferInputs[1], 
       selectedCompetency.blockId
     )
     :
-    response = await props.methodOwner(
-      transferInputs[0], 
-      transferInputs[1], 
+    response = await props.methodRights(
+      transferInputs[0],
       selectedCompetency.blockId
     )
-    return {
-      "title": "Estado de Permiso", 
-      "text": response ? "Tiene permiso de edición": "No tiene permiso de edición"
+    return (state) ? {
+      "title": "Representació'de competencia", 
+      "text": response ? "Es representante ": "No es representante"
+    } : {
+      "title": "Derechos de transferencia", 
+      "text": "Este usuario puede transferir "+response.toString()+" compentecias"
     }
 
   }
@@ -54,14 +55,14 @@ const PermissionConsultor = (props) => {
   return (      
     <div className={styles.wrapper}>
       <div style={{display:"flex", justifyContent: "space-between", width: '100%'}}>
-        <p className={styles.title}>Consultar permisos de edición</p>
+        <p className={styles.title}>Consultar permisos de transferencia</p>
         <AlertButton
           text={"?"}
         />
       </div>
       <Typography component="div">
           <Grid component="label" container alignItems="center" spacing={1}>
-            <Grid item>Creador</Grid>
+            <Grid item>Representante</Grid>
             <Grid item>
               <Switch
                 checked={state.checkedA}
@@ -70,7 +71,7 @@ const PermissionConsultor = (props) => {
                 inputProps={{ 'aria-label': 'secondary checkbox' }}
               />
             </Grid>
-            <Grid item>Dueño</Grid>
+            <Grid item>Intermediario</Grid>
           </Grid>
         </Typography>
         <br/>
@@ -98,4 +99,4 @@ const PermissionConsultor = (props) => {
   );
 }
 
-export default PermissionConsultor;
+export default ConsultTransferRights;
