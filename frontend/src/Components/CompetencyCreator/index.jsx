@@ -59,7 +59,13 @@ const CompetencyCreator = (props) => {
     ]
 
     const classes = useStyles();
-
+    
+    const helpMethod = async () => {
+      return {
+        "title":"",
+        "text":""
+      }
+    }
 
     const method = async () => {
       if (knwolageElements.length !== 0 
@@ -78,7 +84,7 @@ const CompetencyCreator = (props) => {
         ).map(
           (value) => {return Number(value[0]) + 1}
         )
-        await props.createCompetency(
+        const result = await props.createCompetency(
           selectedAccount,
           {
             "name": name,
@@ -87,7 +93,11 @@ const CompetencyCreator = (props) => {
             "dispositions": dispositionValues
           }
         )
-        return {"title": "Elemento creado", "text": "La competencia ha sido creada"}
+        if (result == undefined){
+          return {"title": "Elemento creado", "text": "La competencia ha sido creada"}
+        } else {
+          return {"title": "Error", "text": result}  
+        }
       } else {
         return {"title": "Error", "text": "Ingrese toda la infomación en los campos"}
       }
@@ -99,6 +109,7 @@ const CompetencyCreator = (props) => {
           <p className={styles.title}>Creación de competencias</p>
           <AlertButton
             text={"?"}
+            method={(value) => helpMethod(value)}
           />
           </div>
           <div style={{display:'flex', justifyContent: 'space-between'}}> 

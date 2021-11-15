@@ -20,6 +20,13 @@ const ItemConsultor = (props) => {
     const dispositions = props.dispositions ? props.dispositions : [];
     const knowledgeElements = props.knowledgeElements ? props.knowledgeElements : [];
     
+    const helpMethod = async () => {
+      return {
+        "title":"",
+        "text":""
+      }
+    }
+
     const method = async () => {
       if (selectedItem != "" ){
         const array = state ? dispositions : knowledgeElements;
@@ -37,6 +44,7 @@ const ItemConsultor = (props) => {
         <p className={styles.title}>Consulta de disposiciones y elementos de conocimiento</p>
         <AlertButton
           text={"?"}
+          method={(value) => helpMethod(value)}
         />
         </div>
         <Typography component="div">

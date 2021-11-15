@@ -16,6 +16,7 @@ export default function AlertButton(props) {
   const [knowledgeElements, setKnowledgeElements] = useState([])
   const [dispositions, setDispositions] = useState([])
   const [balance, setBalance] = useState([])
+  const [records, setRecords] = useState([])
 
   const method = async () => {
     const result = await props.method()
@@ -25,6 +26,7 @@ export default function AlertButton(props) {
       result.knowledgeElements ? setKnowledgeElements(result.knowledgeElements) : setKnowledgeElements([])
       result.dispositions ? setDispositions(result.dispositions) : setDispositions([])
       result.balance ? setBalance(result.balance) : setBalance([])
+      result.records ? setRecords(result.records) : setRecords([])
       handleClickOpen()
     }
   } 
@@ -84,6 +86,24 @@ export default function AlertButton(props) {
                 {disposition}
                 </DialogContentText>
               ))}
+            </List>
+          </>
+          }
+          { records.length > 0 &&
+          <>
+            <List sx={{ pt: 0 }}>
+              {records.map((record, index) => (
+                <>
+                <DialogContentText key = {"A"+index} id="alert-dialog-description">
+                  {record.author + " " + (record.isAuthorized ? "authorized": "not authorized")}
+                </DialogContentText>
+                <List sx={{ pt: 0 }} key = {"L"+index}>
+                  {record.value.map((r, index) => (
+                    <ListItemText key = {"E"+index} primary={r} />
+                  ))}
+                </List>
+                </>
+              ))} 
             </List>
           </>
           }

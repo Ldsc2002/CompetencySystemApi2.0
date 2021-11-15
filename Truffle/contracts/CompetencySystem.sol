@@ -68,13 +68,21 @@ contract CompetencySystem is ERC1155{
     }
     
     modifier hasCompetency(address acount, uint256 competencyId) {
-        require(balanceOf(acount, competencyId) > 0, 
+        require(_skillLevels[keccak256(abi.encodePacked(competencyId, acount))] != 0, 
         "CompetencySystem: Doesn't have the competency");
         _;
     }
     
+    modifier hasBalance(address acount, uint256 competencyId,uint256 amount) {
+        require(
+        balanceOf(acount, competencyId) >= amount, 
+        "CompetencySystem: Doesn't have the amount in balance");
+        _;
+    }
+
     modifier canTransfer(uint24 competencyId, uint256 amount ,  address sender) {
-        require(_canTransfer[keccak256(abi.encodePacked(competencyId, sender))] - amount > 0 || _competencyRepresentative[competencyId][sender] || sender == _competencyCreator[competencyId] 
+        require(
+        (_canTransfer[keccak256(abi.encodePacked(competencyId, sender))] - amount > 0 || _competencyRepresentative[competencyId][sender] || sender == _competencyCreator[competencyId]) 
         , "CompetencySystem: Doesn't have permission to transfer");
         _;
     }
@@ -133,21 +141,10 @@ contract CompetencySystem is ERC1155{
         return _competencys[pos];
     }
     
-    /*
-    function _setSkillLevel(
-        address owner,
-        uint24 id,
-        uint24 competencyId
-    ) competencyExist(competencyId) /*hasCompetency(owner, competencyId) public {
-        _skillLevels[keccak256(abi.encodePacked(competencyId, owner))] = (id);
-
-    }*/
-    
-    //Add validation
     function getSkillLevel(
         address owner, 
         uint24 competencyId
-    ) competencyExist(competencyId)  public view returns (uint24){
+    ) competencyExist(competencyId) public view returns (uint24){
         return _skillLevels[keccak256(abi.encodePacked(competencyId, owner))];
     }
     
@@ -188,12 +185,7 @@ contract CompetencySystem is ERC1155{
         uint24 competencyId,
         uint24 skillValuesId
         //bytes memory data
-    ) competencyExist(competencyId) /*canTransfer(competencyId, 1, from)*/ public { //has enought to transfer
-        /*
-        require(
-            from == _msgSender() || isApprovedForAll(from, _msgSender()),
-            "ERC1155: caller is not owner nor approved"
-        );*/
+    ) competencyExist(competencyId) /*canTransfer(competencyId, 1, from)*/ hasBalance(from, competencyId, 1) public { 
         _safeTransferFrom(from, to, competencyId, 1, "");
         if (!( _competencyRepresentative[competencyId][from] || from == _competencyCreator[competencyId])) {  
             _canTransfer[keccak256(abi.encodePacked(competencyId, from))]--;   
@@ -207,7 +199,7 @@ contract CompetencySystem is ERC1155{
         address to, // to whom the permission is been granted
         uint24 competencyId,
         bool permission
-    ) competencyExist(competencyId) hasCompetency(from, competencyId) public {
+    ) competencyExist(competencyId) /* hasCompetency(from, competencyId) */ public {
         _canEditByOwner[keccak256(abi.encodePacked(competencyId, from))][to] = permission;
     }
     
@@ -249,14 +241,14 @@ contract CompetencySystem is ERC1155{
         address to,
         uint24 competencyId,
         uint256 amount
-    ) competencyExist(competencyId) isCompetencyRepresentative(from, competencyId) public  {
+    ) competencyExist(competencyId) isCompetencyRepresentative(from, competencyId) hasBalance(from, competencyId, amount) public  {
         /*
         require(
             from == _msgSender() || isApprovedForAll(from, _msgSender()),
             "ERC1155: caller is not owner nor approved"
         );*/
         _safeTransferFrom(from, to, competencyId, amount, "");
-        _canTransfer[keccak256(abi.encodePacked(competencyId, from))] = amount;
+        _canTransfer[keccak256(abi.encodePacked(competencyId, to))] = _canTransfer[keccak256(abi.encodePacked(competencyId, to))] + amount;
     }
 
     function getTransferRights(
@@ -279,6 +271,6 @@ contract CompetencySystem is ERC1155{
         address from,
         uint24 competencyId
     ) competencyExist(competencyId) view public returns (bool){
-        return  _competencyRepresentative[competencyId][from];
+        return  (_competencyRepresentative[competencyId][from] || from == _competencyCreator[competencyId]);
     }   
 }

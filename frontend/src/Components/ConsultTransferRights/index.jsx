@@ -32,32 +32,43 @@ const ConsultTransferRights = (props) => {
 
   const method = async () => {
     let response
-    (state) ?
-    response = await props.methodRepresentative(
-      transferInputs[0], 
-      selectedCompetency.blockId
-    )
-    :
-    response = await props.methodRights(
-      transferInputs[0],
-      selectedCompetency.blockId
-    )
-    return (state) ? {
-      "title": "Representació'de competencia", 
-      "text": response ? "Es representante ": "No es representante"
-    } : {
-      "title": "Derechos de transferencia", 
-      "text": "Este usuario puede transferir "+response.toString()+" compentecias"
+    if (transferInputs[0] && selectedCompetency) {
+      (state) ?
+      response = await props.methodRepresentative(
+        transferInputs[0], 
+        selectedCompetency.blockId
+      )
+      :
+      response = await props.methodRights(
+        transferInputs[0],
+        selectedCompetency.blockId
+      )
+      return (state) ? {
+        "title": "Representació'de competencia", 
+        "text": response ? "Es representante ": "No es representante"
+      } : {
+        "title": "Derechos de transferencia", 
+        "text": "Este usuario puede transferir "+response.toString()+" compentecias"
+      }
+    } else {
+      return {"title": "Error", "text": "Ingrese todos lo campos de manera adecuada"}
     }
 
   }
 
+  const helpMethod = async () => {
+    return {
+      "title":"",
+      "text":""
+    }
+  }
   return (      
     <div className={styles.wrapper}>
       <div style={{display:"flex", justifyContent: "space-between", width: '100%'}}>
         <p className={styles.title}>Consultar permisos de transferencia</p>
         <AlertButton
           text={"?"}
+          method={(value) => helpMethod(value)}
         />
       </div>
       <Typography component="div">

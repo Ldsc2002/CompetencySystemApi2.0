@@ -13,7 +13,7 @@ const TransferRights = (props) => {
 
   const [transferInputs, setTransferInputs] = useState([])
   const [state, setState] = React.useState(true);
-  const [permissions, setPermissions] = useState(false)
+  const [permissions, setPermissions] = useState("Dar permiso")
   const handleChange = () => {
     setState(!state);
   };
@@ -38,26 +38,38 @@ const TransferRights = (props) => {
   const selectedCompetency = props.competencys.filter(competency => competency.name == selectedCompetencyName)[0]
 
   const method = async () => {
-    let response
-    (state) ?
-    response = await props.methodRepresentative(
-      transferInputs[0], 
-      transferInputs[1], 
-      selectedCompetency.blockId,
-      permissions
-    )
-    :
-    response = await props.methodRights(
-      transferInputs[0], 
-      transferInputs[1], 
-      selectedCompetency.blockId,
-      amount
-    )
-    return {
-      "title": "Estado de Permiso", 
-      "text": response ? "Tiene permiso de edición": "No tiene permiso de edición"
+    if (transferInputs[0] && transferInputs[1] && selectedCompetency && (amount > 0 || permissions)) {
+      let response
+      (state) ?
+      response = await props.methodRepresentative(
+        transferInputs[0], 
+        transferInputs[1], 
+        selectedCompetency.blockId,
+        permissions === PERMISSIONS[0] ? true : false
+      )
+      :
+      response = await props.methodRights(
+        transferInputs[0], 
+        transferInputs[1], 
+        selectedCompetency.blockId,
+        amount
+      )
+      if (response == undefined){
+        return {"title": "Estado del permiso", "text": "El permiso se ha actualizado"}
+      } else {
+        return {"title": "Error", "text": response}  
+      }
+    } else {
+      return {"title": "Error", "text": "Ingrese todos lo campos de manera adecuada"}
     }
 
+  }
+
+  const helpMethod = async () => {
+    return {
+      "title":"",
+      "text":""
+    }
   }
 
   return (      
@@ -66,6 +78,7 @@ const TransferRights = (props) => {
         <p className={styles.title}>Brindar permisos de transferencia</p>
         <AlertButton
           text={"?"}
+          method={(value) => helpMethod(value)}
         />
       </div>
       <Typography component="div">
@@ -87,6 +100,7 @@ const TransferRights = (props) => {
           <ComboBox
             value = {permissions}
             options = {PERMISSIONS}
+            //defaultValue  ={}
             method = {(value) => setPermissions(value)}
             title = {"Seleccione el permiso"}
           /> 

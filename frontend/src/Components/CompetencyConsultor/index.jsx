@@ -7,6 +7,13 @@ import AlertButton from '../AlertButton';
 const CompetencyConsultor = (props) => {
     const [selectedCompetency, setSelectedCompetency] = useState("")
 
+    const helpMethod = async () => {
+      return {
+        "title":"",
+        "text":""
+      }
+    }
+    
     const method = async () => {
       if (
         selectedCompetency != "" 
@@ -42,6 +49,7 @@ const CompetencyConsultor = (props) => {
       <p className={styles.title}>Consulta de competencias</p>
       <AlertButton
         text={"?"}
+        method={(value) => helpMethod(value)}
       />
       </div>
         <div>

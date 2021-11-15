@@ -20,26 +20,33 @@ const CompetencyMiner = (props) => {
         selectedCompetency != "" && amount > 0 && selectedAccount != ""
       ){
         const array = props.competencys;
-        const obj = array.find( ({ name }) => name === selectedCompetency )
+        const obj = array.find( ({ name }) => name === selectedCompetency )        
         const result = await props.competencysMethod(selectedAccount, obj.blockId, amount)
-        console.log("Recibi", result)
+        //console.log(result)
         if (result == undefined){
           return {"title": "Elemento creado", "text": "La competencia han sido minadas"}
         } else {
           return {"title": "Error", "text": result}  
         }
       } else {
-        return {"title": "Error", "text": "Seleccione una competencia"}
+        return {"title": "Error", "text": "Ingrese todos lo campos de manera adecuada"}
       }
     }
 
-  
+    const helpMethod = async () => {
+      return {
+        "title":"",
+        "text":""
+      }
+    }
+    
     return (      
       <div className={styles.wrapper}>
         <div style={{display:"flex", justifyContent: "space-between", width: '100%'}}>
         <p className={styles.title}>Minar competencias</p>
         <AlertButton
           text={"?"}
+          method={(value) => helpMethod(value)}
         />
         </div>
         <div>          

@@ -18,7 +18,14 @@ const BalanceConsultor = (props) => {
           "balance": result
         }
       } else {
-        alert("Seleccione un campo")
+        return {"title": "Error", "text": "Ingrese todos lo campos de manera adecuada"}
+      }
+    }
+
+    const helpMethod = async () => {
+      return {
+        "title":"",
+        "text":""
       }
     }
 
@@ -28,6 +35,7 @@ const BalanceConsultor = (props) => {
         <p className={styles.title}>Consultar Balance</p>
         <AlertButton
           text={"?"}
+          method={(value) => helpMethod(value)}
         />
         </div>
         <div>          

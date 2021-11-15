@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import styles from './editPermission.module.css';
-import Button from '@material-ui/core/Button';
 import ComboBox from '../ComboBox';
 import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
@@ -12,7 +11,7 @@ const EditPermission = (props) => {
     
     const [transferInputs, setTransferInputs] = useState([])
     const [ownerAccount, setOwnerAccount] = useState([])
-    const [permissions, setPermissions] = useState([])
+    const [permissions, setPermissions] = useState("Dar permiso")
     const [state, setState] = React.useState(true);
   
     const handleChange = () => {
@@ -32,22 +31,41 @@ const EditPermission = (props) => {
     const selectedCompetencyName = (transferInputs.length > 0 && transferInputs[2] != "" ) ? transferInputs[2] : "" 
     const selectedCompetency = props.competencys.filter(competency => competency.name == selectedCompetencyName)[0]
     const permission = permissions === "Dar permiso" ? true : false
+
+    const helpMethod = async () => {
+      return {
+        "title":"",
+        "text":""
+      }
+    }
+
+  
     const method = async () => {
-      (state) ?
-      await props.methodCreator(
-        ownerAccount,
-        transferInputs[0], 
-        transferInputs[1], 
-        selectedCompetency.blockId,
-        permission
-      )
-      :
-      await props.methodOwner(
-        transferInputs[0], 
-        transferInputs[1], 
-        selectedCompetency.blockId,
-        permission
-      )
+      if (transferInputs[0] && transferInputs[1] && selectedCompetency && permissions && ((state ? ownerAccount : true) )) {
+        let response
+        (state) ?
+        await props.methodCreator(
+          ownerAccount,
+          transferInputs[0], 
+          transferInputs[1], 
+          selectedCompetency.blockId,
+          permission
+        )
+        :
+        await props.methodOwner(
+          transferInputs[0], 
+          transferInputs[1], 
+          selectedCompetency.blockId,
+          permission
+        )
+        if (response == undefined){
+          return {"title": "Estado del permiso", "text": "El permiso se ha actualizado"}
+        } else {
+          return {"title": "Error", "text": response}  
+        }
+      } else {
+        return {"title": "Error", "text": "Ingrese todos lo campos de manera adecuada"}
+      }
     }
 
     const PERMISSIONS = ["Dar permiso", "Quitar permiso"]
@@ -57,6 +75,7 @@ const EditPermission = (props) => {
         <p className={styles.title}>Dar permiso de edición</p>
         <AlertButton
           text={"?"}
+          method={(value) => helpMethod(value)}
         />
         </div>
         <Typography component="div">
@@ -105,15 +124,10 @@ const EditPermission = (props) => {
             ))}     
           </div>
           <br/>
-          <Button 
-            size="medium" 
-            variant="outlined" 
-            color="secondary"
-            onClick={
-              () => method()
-            }>
-            Brindar
-          </Button>
+          <AlertButton
+          text={"Brindar"}
+          method={() => method()}
+        />
       </div>
     );
 }

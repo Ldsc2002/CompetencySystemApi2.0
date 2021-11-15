@@ -33,21 +33,37 @@ const CompetencyTransfer = (props) => {
 
     const [skillInputs, setSkillInputs] = useState({}) 
 
+    const helpMethod = async () => {
+      return {
+        "title":"",
+        "text":""
+      }
+    }
+
     const method = () => {
-      (state) ?
-      props.awardMethod(
-        transferInputs[0], 
-        transferInputs[1], 
-        props.competencys.filter(c => c.name === transferInputs[2])[0].blockId, 
-        Object.values(skillInputs)
-      )
-      :
-      props.updateMethod(
-        transferInputs[0], 
-        transferInputs[1], 
-        props.competencys.filter(c => c.name === transferInputs[2])[0].blockId, 
-        Object.values(skillInputs)
-      )
+      if (transferInputs[0] && transferInputs[1] && transferInputs[2] &&
+        (Object.values(skillInputs).length == kes.length) ) {
+        (state) ?
+        props.awardMethod(
+          transferInputs[0], 
+          transferInputs[1], 
+          props.competencys.filter(c => c.name === transferInputs[2])[0].blockId, 
+          Object.values(skillInputs)
+        )
+        :
+        props.updateMethod(
+          transferInputs[0], 
+          transferInputs[1], 
+          props.competencys.filter(c => c.name === transferInputs[2])[0].blockId, 
+          Object.values(skillInputs)
+        )
+        return (state) ? 
+        {"title": "Estado de transferencia", "text": "Se ha concedido la competencia"}
+          :
+        {"title": "Estado de edición", "text": "Se ha editado el registro de la competencia"}
+      }  else {
+        return {"title": "Error", "text": "Ingrese todos lo campos de manera adecuada"}
+      }
     }
 
     const config = [
@@ -76,6 +92,7 @@ const CompetencyTransfer = (props) => {
         <p className={styles.title}>Conceder y editar competencias</p>
         <AlertButton
           text={"?"}
+          method={(value) => helpMethod(value)}
         />
         </div>
           <Typography component="div">
@@ -93,14 +110,10 @@ const CompetencyTransfer = (props) => {
             </Grid>
           </Typography>
           <div style={{display:'flex', justifyContent: 'space-between'}}>
-            <Button 
-              className={classes.margin}
-              size="medium" 
-              variant="outlined" 
-              color="secondary"
-              onClick={ () => method() }>
-              {state ? "Transferir" : "Editar"}
-            </Button>
+            <AlertButton
+              text={state ? "Transferir" : "Editar"}
+              method={() => method()}
+            />
           </div>
           <div style={{display:'flex'}}>    
             {config.map((value, index) => (

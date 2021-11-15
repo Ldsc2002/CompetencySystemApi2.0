@@ -29,26 +29,36 @@ const PermissionConsultor = (props) => {
 
   const selectedCompetencyName = (transferInputs.length > 0 && transferInputs[2] != "" ) ? transferInputs[2] : "" 
   const selectedCompetency = props.competencys.filter(competency => competency.name == selectedCompetencyName)[0]
+  
+  const helpMethod = async () => {
+    return {
+      "title":"",
+      "text":""
+    }
+  }
 
   const method = async () => {
-    let response
-    (state) ?
-    response = await props.methodCreator(
-      transferInputs[0], 
-      transferInputs[1], 
-      selectedCompetency.blockId
-    )
-    :
-    response = await props.methodOwner(
-      transferInputs[0], 
-      transferInputs[1], 
-      selectedCompetency.blockId
-    )
-    return {
-      "title": "Estado de Permiso", 
-      "text": response ? "Tiene permiso de edición": "No tiene permiso de edición"
+    if (transferInputs[0] && transferInputs[1] && selectedCompetency) {
+      let response
+      (state) ?
+      response = await props.methodCreator(
+        transferInputs[0], 
+        transferInputs[1], 
+        selectedCompetency.blockId
+      )
+      :
+      response = await props.methodOwner(
+        transferInputs[0], 
+        transferInputs[1], 
+        selectedCompetency.blockId
+      )
+      return {
+        "title": "Estado de Permiso", 
+        "text": response ? "Tiene permiso de edición": "No tiene permiso de edición"
+      }
+    } else {
+      return {"title": "Error", "text": "Ingrese todos lo campos de manera adecuada"}
     }
-
   }
 
   return (      
@@ -57,6 +67,7 @@ const PermissionConsultor = (props) => {
         <p className={styles.title}>Consultar permisos de edición</p>
         <AlertButton
           text={"?"}
+          method={(value) => helpMethod(value)}
         />
       </div>
       <Typography component="div">

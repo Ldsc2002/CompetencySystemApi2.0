@@ -19,9 +19,16 @@ const ItemCreator = (props) => {
     const handleChange = () => {
       setState(!state);
     };
+
+    const helpMethod = async () => {
+      return {
+        "title":"",
+        "text":""
+      }
+    }
     
     const method = async () => {
-      if (name.replace.length !== 0 && description.length !== 0){
+      if (name.trim().length !== 0 && description.trim().length !== 0){
         if (state) {
           props.createDispositions({"name":name, "meaning":description})
           return {"title": "Elemento creado", "text": "La disposición ha sido creada"}
@@ -40,6 +47,7 @@ const ItemCreator = (props) => {
         <p className={styles.title}>Creación de disposiciones y elementos de conocimiento</p>
         <AlertButton
           text={"?"}
+          method={(value) => helpMethod(value)}
         />
         </div>
         <Typography component="div">

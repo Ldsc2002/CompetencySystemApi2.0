@@ -55,6 +55,18 @@ class App extends Component {
     this.setState({ competencySystem })
     //Get Json server data
     this.loadData() 
+    this.loadCompetencys()
+    this.setState({ loading: false })
+  }
+
+  async loadData() {
+    const kes = await getKnowledgeElements();
+    this.setState({ knowledgeElements: kes })
+    const dis = await getDispositions();
+    this.setState({ dispositions: dis })
+  }
+
+  async loadCompetencys(){
     let com = await getCompetencys();
     const competencys = await this.state.competencySystem.methods.getCompetencys().call({from : this.state.account})
     if (competencys.length > 0){
@@ -71,14 +83,6 @@ class App extends Component {
       })
     }
     this.setState({ competencys: com })
-    this.setState({ loading: false })
-  }
-
-  async loadData() {
-    const kes = await getKnowledgeElements();
-    this.setState({ knowledgeElements: kes })
-    const dis = await getDispositions();
-    this.setState({ dispositions: dis })
   }
 
   constructor(props) {
@@ -144,8 +148,7 @@ class App extends Component {
 
   async _createCompetency(account, obj) {
     if (account && obj) {
-      this.setState({ loading: true })
-      //Create Json server competency
+      //Create Json server competency ///////////FIX
       const oldIds = this.state.competencys.map((compentecy) => {return compentecy.id } )
       const res = await createCompetencys(obj)
       let com = await getCompetencys();
@@ -162,18 +165,7 @@ class App extends Component {
         }
       )
       //update the state
-      const competencys = await this.state.competencySystem.methods.getCompetencys().call({from : this.state.account})
-      com.map((competency, index) => {
-        const id = competencys.map(
-          (c, i) => {
-             if (c[0] == competency.id){
-               return i
-             } 
-          }).find((element) => element !== undefined)
-        com[index]["blockId"] = id
-      })
-      this.setState({ competencys: com })
-      this.setState({ loading: false })
+      this.loadCompetencys()
     }
   }
 
@@ -187,29 +179,22 @@ class App extends Component {
  
   async _mintCompetency(account, competencyId, amount){
     let response;
-    //this.setState({ loading: true })
-    //console.log("valuesMint", account, competencyId, amount)
-      this.state.competencySystem.methods.mintCompentecy(
+    await this.state.competencySystem.methods.mintCompentecy(
         account, competencyId, amount
       ).send({from : account}).then(
         function(receipt){
-          //console.log(receipt)
+          console.log(receipt)
           response = null
-          return response
         },
         function(reason){
-          //console.log(reason)
-          response = reason.message.substring(65).trim()//Fix
-          return response
+          response = reason.message.substring(65).trim()
         }
       )
-    //this.setState({ loading: false })
     return response
   }
 
   async _awardCompetency(from, to, competencyId, skillValues){
-    console.log("values", from, to, competencyId, skillValues)
-    this.setState({ loading: true })
+    let response
     const isAuthorized = await this.state.competencySystem.methods.hasPermissionFromCreator( from, to, competencyId ).call({from : this.state.account})
     const obj = {
       records : [
@@ -226,21 +211,20 @@ class App extends Component {
     const newIds = (await getSkillLevels()).map(id => {return id.id})
     //Get the new id
     const id = newIds.filter((id) => !oldIds.includes(id))[0]
-    console.log("id" , id)
-    console.log("values", from, to, competencyId, id)
-    this.state.competencySystem.methods.awardCompetency(
+    await this.state.competencySystem.methods.awardCompetency(
       from, to, competencyId, id
     ).send({from : from}).then(
       function(receipt){
         console.log(receipt)
+      },
+      function(reason){
+        console.log(reason.message)
       }
     )
-    this.setState({ loading: false })
   }
  
   async _updateCompetency(from, to, competencyId, skillValues){
-    //console.log("update")
-    this.setState({ loading: true })
+    let response
     const isAuthorizedByCreator = await this.state.competencySystem.methods.hasPermissionFromCreator( from, to, competencyId ).call({from : this.state.account})
     const isAuthorizedByOwner = await this.state.competencySystem.methods.hasPermissionFromOwner( from, to, competencyId ).call({from : this.state.account})
     if (isAuthorizedByOwner) {
@@ -261,16 +245,38 @@ class App extends Component {
       //skillsValues.records.push(obj)
       const res = await patchSkillLevel(skillsId, obj)
     } else {
-      console.log("Dosent have permission")
+      return ("Dosent have permission")
     }
-    this.setState({ loading: false })
   }
  
   async _consultSkillLevel(account, competencyId){
-    //console.log(account, competencyId)
-    const skillsId = await this.state.competencySystem.methods.getSkillLevel(account, competencyId).call({from : this.state.account})
+    console.log("Consult",  account, competencyId)
+    let skillsId 
+    await this.state.competencySystem.methods.getSkillLevel(account, competencyId)
+    .call({from : this.state.account}).then(
+      function(receipt){
+        skillsId = receipt
+      },
+      function(reason){
+        console.log(reason.message)
+      }
+    )
+
     if (skillsId != 0){
       const skillsValues = await getSkillLevel(skillsId)
+      const competency = await getCompetency(competencyId + 1)
+      const knowledgeElements = this.state.knowledgeElements.filter(
+        (knowledgeElement) => competency.knowledgeElements.includes(knowledgeElement.id) 
+      ).map(
+        (knowledgeElement) => {return knowledgeElement.name}
+      )
+      skillsValues.records.map( 
+        (record) => (
+          record.value = record.value.map((value, i) => {
+            return knowledgeElements[i]+":"+value
+          })
+        )
+      ) 
       const response = skillsValues.records
       return response
     }
@@ -289,9 +295,6 @@ class App extends Component {
   }
 
   async _givePermissionFromCreator(creator, from, to, competencyId, permission){
-    console.log(from, to, competencyId, permission)
-    console.log("Creator")
-    this.setState({ loading: true })
     this.state.competencySystem.methods.givePermissionFromCreator(
       creator, from, to, competencyId, permission
     ).send({from : from}).then(
@@ -299,15 +302,10 @@ class App extends Component {
         console.log(receipt)
       }
     )
-    this.setState({ loading: false })
-    //const response = await this.state.competencySystem.methods.hasPermissionFromCreator(from, to, competencyId).call({from : this.state.account})
-    //return response
+    const response = await this.state.competencySystem.methods.hasPermissionFromCreator(from, to, competencyId).call({from : this.state.account})
   }
 
   async _givePermissionFromOwner(from, to, competencyId, permission){
-    console.log(from, to, competencyId, permission)
-    console.log("Owner")
-    this.setState({ loading: true })
     this.state.competencySystem.methods.givePermissionFromOwner(
       from, to, competencyId, permission
     ).send({from : from}).then(
@@ -316,11 +314,6 @@ class App extends Component {
       }
     )
     const response = await this.state.competencySystem.methods.hasPermissionFromOwner(to, from, competencyId).call({from : this.state.account})
-    console.log("Consult with", to, from, competencyId)
-    console.log(response)
-    this.setState({ loading: false })
-    //const response = await this.state.competencySystem.methods.hasPermissionFromOwner(from, to, competencyId).call({from : this.state.account})
-    //return response
   }
 
   async _consultTransferRights(from, competencyId){
@@ -336,27 +329,34 @@ class App extends Component {
   }
 
   async _asignTransferRights(from, to, competencyId, amount){
-    this.setState({ loading: true })
-    const response = await this.state.competencySystem.methods.asignTransferRights(
+    let response
+    await this.state.competencySystem.methods.asignTransferRights(
       from, to, competencyId, amount
     ).send({from : from}).then(
       function(receipt){
         console.log(receipt)
+      },
+      function(reason){
+        response = reason.message.substring(65).trim()
       }
     )
-    this.setState({ loading: false })
+    return response
   }
 
   async _makeComptencyRepresentative(from, to, competencyId, permission){
-    this.setState({ loading: true })
-    const response = await this.state.competencySystem.methods.makeComptencyRepresentative(
+    console.log(from, to, competencyId, permission)
+    let response
+    await this.state.competencySystem.methods.makeComptencyRepresentative(
       from, to, competencyId, permission
     ).send({from : from}).then(
       function(receipt){
         console.log(receipt)
+      },
+      function(reason){
+        response = reason.message.substring(65).trim()
       }
     )
-    this.setState({ loading: false })
+    return response
   }
 
   /*//////////////////////////////  ////////////////////////// */

@@ -1,4 +1,6 @@
 .block {
     display: flex;
     flex-direction: column;
+    height: 200px;
+    overflow-y: scroll;
 }
