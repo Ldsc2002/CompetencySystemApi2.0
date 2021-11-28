@@ -24,8 +24,8 @@ const BalanceConsultor = (props) => {
 
     const helpMethod = async () => {
       return {
-        "title":"",
-        "text":""
+        "title":"Módulo de consulta de balance",
+        "text":"Este módulo se utiliza para la consulta del balance de las competencias"
       }
     }
 

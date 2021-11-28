@@ -9,8 +9,8 @@ const CompetencyConsultor = (props) => {
 
     const helpMethod = async () => {
       return {
-        "title":"",
-        "text":""
+        "title":"Módulo de consulta de competencias",
+        "text":"Este módulo se utiliza para la consulta de competencias"
       }
     }
     

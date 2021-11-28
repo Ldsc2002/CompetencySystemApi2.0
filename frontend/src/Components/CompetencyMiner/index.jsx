@@ -35,8 +35,8 @@ const CompetencyMiner = (props) => {
 
     const helpMethod = async () => {
       return {
-        "title":"",
-        "text":""
+        "title":"Módulo para el minado de competencias",
+        "text":"Este módulo se utiliza para el minado de competencias, la billetera seleccionada debe de ser la billetera creadora de la competencia o una billetera representante de la compentecia"
       }
     }
     

@@ -210,17 +210,19 @@ class App extends Component {
     const res = await createSkillLevels(obj)
     const newIds = (await getSkillLevels()).map(id => {return id.id})
     //Get the new id
+    let msg; 
     const id = newIds.filter((id) => !oldIds.includes(id))[0]
     await this.state.competencySystem.methods.awardCompetency(
       from, to, competencyId, id
     ).send({from : from}).then(
       function(receipt){
-        console.log(receipt)
+        msg = ""
       },
       function(reason){
-        console.log(reason.message)
+        msg = reason.message.substring(65).trim()
       }
     )
+    return msg
   }
  
   async _updateCompetency(from, to, competencyId, skillValues){
@@ -244,8 +246,9 @@ class App extends Component {
       }
       //skillsValues.records.push(obj)
       const res = await patchSkillLevel(skillsId, obj)
+      return ""
     } else {
-      return ("Dosent have permission")
+      return ("No cuenta con permiso")
     }
   }
  
@@ -261,7 +264,7 @@ class App extends Component {
         console.log(reason.message)
       }
     )
-
+    console.log("skill", skillsId);
     if (skillsId != 0){
       const skillsValues = await getSkillLevel(skillsId)
       const competency = await getCompetency(competencyId + 1)
@@ -289,8 +292,6 @@ class App extends Component {
 
   async _consultPermissionFromOwner(from, to, competencyId){
     const response = await this.state.competencySystem.methods.hasPermissionFromOwner(from, to, competencyId).call({from : this.state.account})
-    console.log("Consult with", from, to, competencyId)
-    console.log(response)
     return response
   }
 
@@ -318,13 +319,11 @@ class App extends Component {
 
   async _consultTransferRights(from, competencyId){
     const response = await this.state.competencySystem.methods.getTransferRights(from, competencyId).call({from : this.state.account})
-    console.log(response)
     return response
   }
 
   async _isCompetencyRepresentative(from, competencyId){
     const response = await this.state.competencySystem.methods.isComptencyRepresentative(from, competencyId).call({from : this.state.account})
-    console.log(response)
     return response
   }
 

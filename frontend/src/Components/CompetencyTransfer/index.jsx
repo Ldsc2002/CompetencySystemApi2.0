@@ -8,6 +8,7 @@ import AlertButton from '../AlertButton';
 import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import TextInput from '../TextInput';
 
 const CompetencyTransfer = (props) => {
 
@@ -35,32 +36,38 @@ const CompetencyTransfer = (props) => {
 
     const helpMethod = async () => {
       return {
-        "title":"",
-        "text":""
+        "title":"Módulo de transferencia y edición de competencias",
+        "text":"Este módulo se utiliza para la transferencia de comptencias y edición de registros de habilidades de competencias. La transferecia debe de ser realizada por un intermediario, representante, o dueño de la competnecia. En el caso de la edición es necesario tener el permiso del dueño. Si se brinda permiso del creador se vera reflejado en el nuevo registro"
       }
     }
 
-    const method = () => {
+    const method = async () => {
+      let res
       if (transferInputs[0] && transferInputs[1] && transferInputs[2] &&
         (Object.values(skillInputs).length == kes.length) ) {
         (state) ?
-        props.awardMethod(
+        res = await props.awardMethod(
           transferInputs[0], 
           transferInputs[1], 
           props.competencys.filter(c => c.name === transferInputs[2])[0].blockId, 
           Object.values(skillInputs)
         )
         :
-        props.updateMethod(
+        res = await props.updateMethod(
           transferInputs[0], 
           transferInputs[1], 
           props.competencys.filter(c => c.name === transferInputs[2])[0].blockId, 
           Object.values(skillInputs)
         )
-        return (state) ? 
-        {"title": "Estado de transferencia", "text": "Se ha concedido la competencia"}
-          :
-        {"title": "Estado de edición", "text": "Se ha editado el registro de la competencia"}
+        console.log(res)
+        if (res.length == ""){
+          return (state) ?  
+            {"title": "Estado de transferencia", "text": "Se ha concedido la competencia"}
+              :
+            {"title": "Estado de edición", "text": "Se ha editado el registro de la competencia"}
+        } else {
+          return{"title": "Error", "text": res}
+        }
       }  else {
         return {"title": "Error", "text": "Ingrese todos lo campos de manera adecuada"}
       }

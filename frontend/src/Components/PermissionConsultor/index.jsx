@@ -32,8 +32,8 @@ const PermissionConsultor = (props) => {
   
   const helpMethod = async () => {
     return {
-      "title":"",
-      "text":""
+      "title":"Módulo de consulta de permisos de edición",
+      "text":"Este módulo se utiliza para la consulta de los permisos de edición ya sean por parte del dueño o del creador"
     }
   }
 

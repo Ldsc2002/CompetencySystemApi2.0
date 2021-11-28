@@ -67,8 +67,8 @@ const TransferRights = (props) => {
 
   const helpMethod = async () => {
     return {
-      "title":"",
-      "text":""
+      "title":"Módulo de transferencia de permisos de trasnferencia",
+      "text":"Este módulo se utiliza para brindar permisos de transferencia. Ya sea para establer un representante de una competencia o para establecer un intermediario. En el caso de los intermediarios es necesario establecer la cantidad de comptencias que se le delegaran. Para establecer un intermediario es necesario contar con el balance necesario para igual la cantidad de competencias que se le esta habilitando"
     }
   }
 
@@ -132,7 +132,7 @@ const TransferRights = (props) => {
         </div>
         <br/>
         <AlertButton
-          text={"Consultar"}
+          text={"Brindar"}
           method={() => method()}
         />
     </div>

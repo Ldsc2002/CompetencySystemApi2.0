@@ -22,8 +22,8 @@ const ItemCreator = (props) => {
 
     const helpMethod = async () => {
       return {
-        "title":"",
-        "text":""
+        "title":"Módulo de creación de disposiciones y elementos de competencia",
+        "text":"Este módulo se utiliza para la creación de disposiciones y elementos de conocimiento"
       }
     }
     

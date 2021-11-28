@@ -22,8 +22,8 @@ const ItemConsultor = (props) => {
     
     const helpMethod = async () => {
       return {
-        "title":"",
-        "text":""
+        "title":"Módulo de consulta de disposiciones y elementos de conocimiento",
+        "text":"Este módulo se utiliza para la consulta de disposiciones y elementos de conocimiento"
       }
     }
 

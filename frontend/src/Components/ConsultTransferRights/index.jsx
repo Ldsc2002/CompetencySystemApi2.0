@@ -58,8 +58,8 @@ const ConsultTransferRights = (props) => {
 
   const helpMethod = async () => {
     return {
-      "title":"",
-      "text":""
+      "title":"Módulo de consulta de permisos de transferencia",
+      "text":"Este módulo se utiliza para la consulta de los permisos de transferencia ya sea para un representante o intermediario"
     }
   }
   return (      

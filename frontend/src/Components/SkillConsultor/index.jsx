@@ -16,16 +16,17 @@ const SkillConsultor = (props) => {
     
     const helpMethod = async () => {
       return {
-        "title":"",
-        "text":""
+        "title":"Módulo de consulta de habilidades",
+        "text":"Este módulo se utiliza para la consulta de habilidades que tiene una billetera para una determinada competencia"
       }
     }
 
     const method = async () => {
       if (selectedItem != "" ){
-        const selectedItemId = competencys.map(
+        const selectedItemId = props.competencys.map(
           (competency, index) => {
-            if (competency === selectedItem) return index
+            //console.log("c: ", competency.blockId)
+            if (competency.name === selectedItem) return competency.blockId
           }
         ).filter(competency => competency !== undefined )[0]
         const response = await props.method(selectedAccount, selectedItemId) 

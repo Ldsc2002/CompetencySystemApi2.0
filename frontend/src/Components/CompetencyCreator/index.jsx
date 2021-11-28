@@ -62,8 +62,8 @@ const CompetencyCreator = (props) => {
     
     const helpMethod = async () => {
       return {
-        "title":"",
-        "text":""
+        "title":"Módulo de creación de competencia",
+        "text":"Este módulo se utiliza para la creación de compentecias, la billetera seleccionada sera la dueña de la competencia. "
       }
     }
 

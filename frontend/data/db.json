@@ -2,28 +2,28 @@
   "knowledgeElements": [
     {
       "id": 1,
-      "name": "Analytical and Critical Thinking",
-      "meaning": "A mental process of simplifying complex information into basic parts and evaluating results to make proper decisions"
+      "name": "Pensamiento crítico y analítico",
+      "meaning": "El proceso mental de simplificar información compleja en partes básicas y evaluar los resultados para tomar decisiones adecuadas."
     },
     {
       "id": 2,
-      "name": "Collaboration and Teamwork",
-      "meaning": "Apportion challenging tasks into simpler ones and then work together to complete them efficiently"
+      "name": "Coolaboracicón y trbajo en equipo",
+      "meaning": "Capacidad de Dividir las tareas desafiantes en tareas más simples y luego trabajar en conjunto para completarlas de manera eficiente"
     },
     {
       "id": 3,
-      "name": "Ethical and Intercultural Perspectives",
-      "meaning": "Ethical perspectives of the different viewpoints someone uses to view a problem in the context of individual human values"
+      "name": "Perspectivas éticas e interculturales",
+      "meaning": "Perspectivas éticas de los diferentes puntos de vista que alguien usa para ver un problema en el contexto de los valores humanos individuales."
     },
     {
       "id": 4,
-      "name": "Mathematics and Statistics",
-      "meaning": "Use of numbers and theories abstractly especially in the collection and analysis of numerical data"
+      "name": "Matemáticas y Estadísticas",
+      "meaning": "Uso de números y teorías de forma abstracta, especialmente en la recopilación y análisis de datos numéricos."
     },
     {
       "id": 5,
-      "name": "Multi-Task Prioritization and Management",
-      "meaning": "Processing several issues or tasks at once while arranging them according to importance to do specific one first"
+      "name": "Priorización y gestión de múltiples tareas",
+      "meaning": "Procesar varios problemas o tareas a la vez mientras los organiza de acuerdo con la importancia para hacer uno específico primero"
     },
     {
       "id": 6,
@@ -32,82 +32,117 @@
     },
     {
       "id": 7,
-      "name": "Problem Solving and Trouble Shooting",
-      "meaning": "A logical and orderly search for the source of a unit problem and making the unit operational again"
+      "name": "Resolución de problemas",
+      "meaning": "Una búsqueda lógica y ordenada de la fuente de un problema unitario y hacer que la unidad vuelva a estar operativa."
     },
     {
       "id": 8,
-      "name": "Project and Task Organization and Planning",
-      "meaning": "A process to provide decisions about a project concerning organization and planning to achieve a successful result"
+      "name": "Organización y planificación de proyectos y tareas",
+      "meaning": "Un proceso para proporcionar decisiones sobre un proyecto relativas a la organización y la planificación para lograr un resultado exitoso."
     },
     {
       "id": 9,
-      "name": "Quality Assurance / Control",
-      "meaning": "Use of techniques, methods, and processes to identify and prevent defects according to defined quality standards"
+      "name": "Quality Assurance / Control de calidad",
+      "meaning": "Uso de técnicas, métodos y procesos para identificar y prevenir defectos de acuerdo con estándares de calidad definidos."
     },
     {
       "id": 10,
-      "name": "Relationship Management",
-      "meaning": "A strategy to maintain an ongoing level of engagement usually between a business and its customers or other businesses"
+      "name": "Manejo de relaciones",
+      "meaning": "Una estrategia para mantener un nivel continuo de compromiso, generalmente entre una empresa y sus clientes u otras empresas."
+    },
+    {
+      "name": "Pensamiento crítico y analítico",
+      "meaning": "El proceso mental de simplificar información compleja en partes básicas y evaluar los resultados para tomar decisiones adecuadas.",
+      "id": 11
+    },
+    {
+      "name": "Pensamiento crítico y analítico",
+      "meaning": "El proceso mental de simplificar información compleja en partes básicas y evaluar los resultados para tomar decisiones adecuadas.",
+      "id": 12
+    },
+    {
+      "name": "Pensamiento crítico y analítico",
+      "meaning": "El proceso mental de simplificar información compleja en partes básicas y evaluar los resultados para tomar decisiones adecuadas.",
+      "id": 13
+    },
+    {
+      "name": "Pensamiento crítico y analítico",
+      "meaning": "El proceso mental de simplificar información compleja en partes básicas y evaluar los resultados para tomar decisiones adecuadas.",
+      "id": 14
     }
   ],
   "dispositions": [
     {
       "id": 1,
       "name": "Adaptable",
-      "meaning": "Flexible; agile, adjust in response to change "
+      "meaning": "Flexible; ágil, se ajusta en respuesta al cambio"
     },
     {
       "id": 2,
-      "name": "Professional",
-      "meaning": "Professionalism, discretion, ethical, astute"
+      "name": "Profesional",
+      "meaning": "Profesionalismo, discreción, ética, astucia"
     },
     {
       "id": 3,
-      "name": "Collaborative",
-      "meaning": "Team player, willing to work with others "
+      "name": "Colaborativo",
+      "meaning": "Jugador de equipo, dispuesto a trabajar con otros"
     },
     {
       "id": 4,
-      "name": "Purpose-driven",
-      "meaning": "Goal driven, achieve goals, business acumen"
+      "name": "Impulsado por propósito",
+      "meaning": "Impulsado por objetivos, logro de objetivos, perspicacia para los negocios"
     },
     {
       "id": 5,
-      "name": "Inventive",
-      "meaning": "Exploratory. Look beyond simple solutions "
+      "name": "Inventivo",
+      "meaning": "Mira más allá de las soluciones simples"
     },
     {
       "id": 6,
-      "name": "Responsible",
-      "meaning": "Use judgment, discretion, act appropriately"
+      "name": "Responsable",
+      "meaning": "Use el juicio, la discreción, actúa de manera apropiada"
     },
     {
       "id": 7,
-      "name": "Meticulous",
-      "meaning": "Attentive to detail; thoroughness, accurate "
+      "name": "Meticuloso",
+      "meaning": "Atento a los detalles; minucioso, preciso"
     },
     {
       "id": 8,
-      "name": "Responsive",
-      "meaning": "Respectful; react quickly and positively"
+      "name": "Responsivo",
+      "meaning": "Respetuoso; reacciona rápido y positivamente"
     },
     {
       "id": 9,
-      "name": "Passionate",
-      "meaning": "Conviction, strong commitment, compelling "
+      "name": "Apasionado",
+      "meaning": "Convicción, fuerte compromiso, convincente"
     },
     {
       "id": 10,
-      "name": "Self-directed",
-      "meaning": "Self-motivated, determination, independent"
+      "name": "Autodirigido",
+      "meaning": "Auto motivado, determinado, independiente."
+    },
+    {
+      "name": "Adaptable",
+      "meaning": "Flexible; ágil, se ajusta en respuesta al cambio",
+      "id": 11
+    },
+    {
+      "name": "Adaptable",
+      "meaning": "Flexible; ágil, se ajusta en respuesta al cambio",
+      "id": 12
+    },
+    {
+      "name": "Adaptable",
+      "meaning": "Flexible; ágil, se ajusta en respuesta al cambio",
+      "id": 13
     }
   ],
   "competencys": [
     {
       "id": 1,
-      "name": "Competency1",
-      "statement": "This is the compentecy 1",
+      "name": "Competencia 1",
+      "statement": "Esta es la competencia 1",
       "knowledgeElements": [
         10,
         9,
@@ -121,8 +156,8 @@
     },
     {
       "id": 2,
-      "name": "Competency2",
-      "statement": "This is the compentecy 2",
+      "name": "Competencia 2",
+      "statement": "Esta es la competencia 2",
       "knowledgeElements": [
         7,
         6,
@@ -136,8 +171,8 @@
     },
     {
       "id": 3,
-      "name": "Competency3",
-      "statement": "This is the compentecy 3",
+      "name": "Competencia 3",
+      "statement": "Esta es la competencia 3",
       "knowledgeElements": [
         4,
         3,
@@ -154,11 +189,29 @@
     {
       "records": [
         {
-          "author": "0x6BfA634117aBe4523d352a05e29eB67026Fa2717",
+          "author": "0x9C21C220b609a5030C75504bf2Ac232ef54ce4e4",
+          "isAuthorized": false,
+          "value": [
+            "Remembering",
+            "Understanding",
+            "Remembering"
+          ]
+        },
+        {
+          "author": "0x78493d0310Cd3FFD5b795d5AB43A225F17DdB960",
           "isAuthorized": true,
           "value": [
             "Remembering",
-            "Analyzing",
+            "Understanding",
+            "Remembering"
+          ]
+        },
+        {
+          "author": "0x78493d0310Cd3FFD5b795d5AB43A225F17DdB960",
+          "isAuthorized": true,
+          "value": [
+            "Remembering",
+            "Remembering",
             "Remembering"
           ]
         }
@@ -168,48 +221,74 @@
     {
       "records": [
         {
-          "author": "0x4c4B9CE0b4121DbE743312BF400808952825Ec52",
-          "isAuthorized": true,
-          "value": [
-            "Creating",
-            "Creating",
-            "Creating"
-          ]
-        },
-        {
-          "author": "0x4c4B9CE0b4121DbE743312BF400808952825Ec52",
-          "isAuthorized": false,
-          "value": [
-            "Understanding",
-            "Understanding",
-            "Understanding"
-          ]
-        },
-        {
-          "author": "0x7855a987Ba2fc604891e413D82152C14a1E15783",
+          "author": "0x78493d0310Cd3FFD5b795d5AB43A225F17DdB960",
           "isAuthorized": true,
           "value": [
             "Remembering",
-            "Remembering",
-            "Understanding"
+            "Understanding",
+            "Remembering"
           ]
         }
       ],
       "id": 2
     },
     {
+      "author": "0x78493d0310Cd3FFD5b795d5AB43A225F17DdB960",
+      "isAuthorized": true,
+      "value": [
+        "Remembering",
+        "Understanding",
+        "Remembering"
+      ],
+      "id": 3
+    },
+    {
+      "author": "0x78493d0310Cd3FFD5b795d5AB43A225F17DdB960",
+      "isAuthorized": true,
+      "value": [
+        "Remembering",
+        "Understanding",
+        "Remembering"
+      ],
+      "id": 4
+    },
+    {
+      "author": "0x78493d0310Cd3FFD5b795d5AB43A225F17DdB960",
+      "isAuthorized": true,
+      "value": [
+        "Remembering",
+        "Understanding",
+        "Remembering"
+      ],
+      "id": 5
+    },
+    {
       "records": [
         {
-          "author": "0x765b762eaab8241F499E266d4204eAcF896aeB7A",
+          "author": "0x9C21C220b609a5030C75504bf2Ac232ef54ce4e4",
           "isAuthorized": false,
           "value": [
             "Remembering",
-            "Remembering",
+            "Understanding",
             "Remembering"
           ]
         }
       ],
-      "id": 3
+      "id": 6
+    },
+    {
+      "records": [
+        {
+          "author": "0x9C21C220b609a5030C75504bf2Ac232ef54ce4e4",
+          "isAuthorized": false,
+          "value": [
+            "Remembering",
+            "Understanding",
+            "Remembering"
+          ]
+        }
+      ],
+      "id": 7
     }
   ]
 }

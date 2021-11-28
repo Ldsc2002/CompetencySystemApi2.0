@@ -34,8 +34,8 @@ const EditPermission = (props) => {
 
     const helpMethod = async () => {
       return {
-        "title":"",
-        "text":""
+        "title":"Módulo de permisos de edición",
+        "text":"Este módulo se utiliza para brindar permisos de edición. Ya sea por parte del dueño o del creador de una competencias. El permiso del dueño habilita la edición, mientras que el permiso del creador se ve reflejado en el nuevo registro"
       }
     }
 
