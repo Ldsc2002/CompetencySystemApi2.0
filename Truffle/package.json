@@ -20,6 +20,10 @@
   },
   "homepage": "https://github.com/paulbelches/CompetencySystemApi#readme",
   "dependencies": {
-    "@openzeppelin/contracts": "^4.3.2"
+    "@openzeppelin/contracts": "^4.3.2",
+    "solidity-docgen": "^0.5.16"
+  },
+  "devDependencies": {
+    "solc-0.8": "npm:solc@^0.8.10"
   }
 }
