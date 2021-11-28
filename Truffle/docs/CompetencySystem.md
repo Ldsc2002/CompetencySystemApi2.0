@@ -47,30 +47,6 @@
 
 
 
-### `_getId() → uint24` (public)
-
-
-
-
-
-### `lastId() → uint24` (public)
-
-
-
-
-
-### `_getSkillId() → uint24` (public)
-
-
-
-
-
-### `lastSkillId() → uint24` (public)
-
-
-
-
-
 ### `createCompetency(address from, uint24 id, uint8 KEamount)` (public)
 
 

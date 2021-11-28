@@ -5,61 +5,67 @@ import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 
 contract CompetencySystem is ERC1155{
     
-    /* Skill level, using Blooms taxonomi
-    0. Remembering
-    1. Understanding
-    2. Applying
-    3. Analyzing
-    4. Evaluating
-    5. Creating
-    */
-    
     ////////////////////CompetencySystem////////////////////
     
-    uint24 competencyCounter;
-    uint24 skillLevelCounter;
-    
+
+    //Competency stroting structure
+    //@atribute id: The id of the Competency in the external storing system
+    //@atribute KEamount: The amount of Knowledge Elements that the Competency has in its definition
     struct Competency {
         uint24 id; 
         uint8 KEamount;
     }
     
-    //Competency[] _competencys;
-    
+    //Array of the store Competencys
     Competency[] private _competencys; 
     
     mapping(bytes32 =>  uint24) private _skillLevels;
     /////////////////////Permissions/////////////////////////
     
+    //Mapping from Competencys ids to creator address
     mapping(uint256 => address) private _competencyCreator;
     
+    //Mapping from Competencys ids to Competencys representatives
     mapping(uint24 => mapping(address => bool)) private _competencyRepresentative;
-    
+     
+    //Mapping from a Competency id and a adress to the amount it can transfer
     mapping(bytes32 => uint256) private _canTransfer; 
-    
+
+    //Mapping from a Competency id and a adress to the creators permission to edit
     mapping(bytes32 => mapping(address => bool)) private _canEditByCreator;
-    
+
+    //Mapping from a Competency id and a adress to the owners permission to edit
     mapping(bytes32 => mapping(address => bool)) private _canEditByOwner;
     
     /////////////////////Modifiers/////////////////////////
     
+
+    //Check if an account is the creator of a competency
+
     modifier isCompetencyCreator(address acount, uint24 competencyId) {
         require( acount == _competencyCreator[competencyId], 
         "CompetencySystem: Only competency creator");
         _;
     }
     
+    //Check if an account is a representative for a competency
+
     modifier isCompetencyRepresentative(address acount, uint24 competencyId) {
         require( _competencyRepresentative[competencyId][acount] || acount == _competencyCreator[competencyId] , 
         "CompetencySystem: Only competency creator");
         _;
     }
 
+    //Check if a competency exist
+
+
     modifier competencyExist(uint24 competencyId) {
         require( competencyId < _competencys.length, 
         "CompetencySystem: Competency does not exit");
         _;
     }
+
+    //Check if an account has the owners permission to edit
     
     modifier canEditByOwner(address acount, address owner, uint256 competencyId) {
         require(_canEditByOwner[keccak256(abi.encodePacked(competencyId, owner))][acount],
@@ -67,6 +73,8 @@ contract CompetencySystem is ERC1155{
         _;
     }
     
+    //Check if an account has a competency
+
     modifier hasCompetency(address acount, uint256 competencyId) {
         require(_skillLevels[keccak256(abi.encodePacked(competencyId, acount))] != 0, 
         "CompetencySystem: Doesn't have the competency");
@@ -79,7 +87,9 @@ contract CompetencySystem is ERC1155{
         "CompetencySystem: Doesn't have the amount in balance");
         _;
     }
-
+    
+    //Check if an account has the permission to transfer a amount of competencys
+    
     modifier canTransfer(uint24 competencyId, uint256 amount ,  address sender) {
         require(
         (_canTransfer[keccak256(abi.encodePacked(competencyId, sender))] - amount > 0 || _competencyRepresentative[competencyId][sender] || sender == _competencyCreator[competencyId]) 
@@ -90,29 +100,16 @@ contract CompetencySystem is ERC1155{
     
     /////////////////////Methods/////////////////////////
     
-    constructor() ERC1155("") {
-        competencyCounter = 0;
-        skillLevelCounter = 0;
-    }
-    //Como UVG (ente creador de competencias), deseo poder crear competencias, para definir los saberes qué se pueden obtener en mi institución.
+    constructor() ERC1155("") { }
 
-    function _getId() public returns(uint24) {
-        competencyCounter += 1;
-        return competencyCounter;
-    }
-
-    function lastId() public view returns(uint24) {
-        return competencyCounter;
-    }
+    /* 
+    Create a Competency inside the system
     
-    function _getSkillId() public returns(uint24) {
-        skillLevelCounter += 1;
-        return skillLevelCounter;
-    }
-
-    function lastSkillId() public view returns(uint24) {
-        return skillLevelCounter;
-    }
+    @Param from : The address that is creating the competency
+    @Param id : The id of the competency in the external storing system
+    @Param KEamount : The amount of Knowledge Elements the competency has
+    
+    */
 
     function createCompetency(
         address from,
@@ -133,13 +130,33 @@ contract CompetencySystem is ERC1155{
         _competencyCreator[_competencys.length - 1] = from;
     }
 
+    /*
+    
+    Get a competency by its id
+    
+    */
     function getCompetencys() public view returns (Competency[] memory){
         return _competencys;
     }
+
+        /*
+    
+    Get a competency by its id
+    
+    */
     
     function getCompetency(uint24 pos) competencyExist(pos) public view returns (Competency memory){
         return _competencys[pos];
     }
+
+    /*
+    
+    Get the saved external storing id of the skill levels of an account
+    
+    @Param owner : The address of the account that ownes the skill levels
+    @Param competencyId : The id of the competency
+    
+    */
     
     function getSkillLevel(
         address owner, 
@@ -148,6 +165,11 @@ contract CompetencySystem is ERC1155{
         return _skillLevels[keccak256(abi.encodePacked(competencyId, owner))];
     }
     
+    
+    /*
+    This method come from the ERC1155 but was disabled due to it not being suit for the competency system
+    */
+
     function safeTransferFrom( //Award competency
         address from,
         address to,
@@ -158,6 +180,10 @@ contract CompetencySystem is ERC1155{
         (from); (to); (id); (amount); (data);
         require( false, "CompetencySystem: Method is not allowed" );
     }
+
+    /*
+    This method come from the ERC1155 but was disabled due to it not being suit for the competency system
+    */
 
     function safeBatchTransferFrom( //Award competencys
         address from,
@@ -170,7 +196,17 @@ contract CompetencySystem is ERC1155{
         require( false, "CompetencySystem: Method is not allowed" );
     }
     
+      
+    /*
     
+    Instantiate competency
+    
+    @Param from : The address of the account that wants to mint the competency
+    @Param competencyId : The id of the competency
+    @Param amount : The amount that is going to be mint
+    
+    */
+
     function mintCompentecy(
         address from,
         uint24 competencyId, 
@@ -178,6 +214,17 @@ contract CompetencySystem is ERC1155{
     ) competencyExist(competencyId) isCompetencyRepresentative(from, competencyId) public {
         _mint(from, competencyId, amount, "");
     }
+    
+    /*
+    
+   Award a competency to another wallet
+    
+    @Param from : The address that is awarding the competency
+    @Param to : The address that is receiving the competency
+    @Param competencyId : The id of the competency
+    @Param skillValuesId : The id of the skill values in the external storing system
+    
+    */
     
     function awardCompetency(
         address from,
@@ -193,6 +240,16 @@ contract CompetencySystem is ERC1155{
         _skillLevels[keccak256(abi.encodePacked(competencyId, to))] = skillValuesId;
     }
     
+    /*
+    
+    Give owners permission to edit a competencys skill values
+    
+    @Param from : The address that is granting the permission
+    @Param to : The address that is receiving the permission
+    @Param competencyId : The id of the competency
+    @Param permissionv : The permission been granted
+    
+    */
 
     function givePermissionFromOwner(
         address from, // who is granting the permission (the owner)
@@ -203,7 +260,18 @@ contract CompetencySystem is ERC1155{
         _canEditByOwner[keccak256(abi.encodePacked(competencyId, from))][to] = permission;
     }
     
-     
+     /*
+    
+    Give creators permission to edit a competencys skill values
+    
+    @Param from : The address that is going to edit
+    @Param owner : The address that is granting the permission
+    @Param to : The address that is going to be edited
+    @Param competencyId : The id of the competency
+    @Param permission : The permission been granted
+    
+    */
+
     function givePermissionFromCreator(
         address from, // who is granting the permission
         address owner, // who is the competency owner
@@ -219,7 +287,16 @@ contract CompetencySystem is ERC1155{
         _canEditByCreator[keccak256(abi.encodePacked(competencyId, owner))][to] = permission;
     }
     
+    /*
     
+    Obtain the creators permission that an acoount has to edit
+    
+    @Param from : The address that wants to edit
+    @Param owner : The address that owns the competency
+    @Param competencyId : The id of the competency
+    
+    */
+
     function hasPermissionFromCreator(
         address from, //Who is updating the skill Values
         address owner,
@@ -227,7 +304,14 @@ contract CompetencySystem is ERC1155{
     ) competencyExist(competencyId) public view returns (bool){
         return (_canEditByCreator[keccak256(abi.encodePacked(competencyId, owner))][from] || _competencyRepresentative[competencyId][from] || from == _competencyCreator[competencyId]) ;
     }
+     /*
+    Obtain the owners permission that an acoount has to edit
     
+    @Param from : The address that wants to edit
+    @Param owner : The address that owns the competency
+    @Param competencyId : The id of the competency
+    
+    */
     function hasPermissionFromOwner(
         address from, //Who is updating the skill Values
         address owner,
@@ -251,6 +335,17 @@ contract CompetencySystem is ERC1155{
         _canTransfer[keccak256(abi.encodePacked(competencyId, to))] = _canTransfer[keccak256(abi.encodePacked(competencyId, to))] + amount;
     }
 
+    /*
+    
+    Give transfer right to an account
+    
+    @Param from : The address that granting the rights
+    @Param to : The address that is receiving the rights
+    @Param competencyId : The id of the competency
+    @Params amount: The amount of competencys that can be transfer
+    
+    */
+
     function getTransferRights(
         address from,
         uint24 competencyId
@@ -258,6 +353,17 @@ contract CompetencySystem is ERC1155{
         return _canTransfer[keccak256(abi.encodePacked(competencyId, from))];
     }
     
+     /*
+    
+    Make an account the representative of the creator for a competency
+    
+    @Param from : The address that granting the permission
+    @Param to : The address that is receiving the permission
+    @Param competencyId : The id of the competency
+    @Params permission: The permission
+    
+    */
+
     function makeComptencyRepresentative(
         address from,
         address to,
