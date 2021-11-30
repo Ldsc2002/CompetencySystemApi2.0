@@ -1,5 +1,12 @@
 # CompetencySystemApi
 
+## Installation
+
+1.  Install the frontend using node
+2.  Install the truffle folder using node
+3.  Install Json Server
+4.  Install Ganache
+
 ## Run using bash
 
 **Gnome terminal is needed**
