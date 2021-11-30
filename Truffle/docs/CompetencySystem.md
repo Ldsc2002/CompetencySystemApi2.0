@@ -1,3 +1,70 @@
+## Modifiers
+
+  ## IsCompetencyCreator
+
+   Check if an account is the creator of a competency
+ 
+    - **account** : The address of the account that is going to be verified
+    - **competencyId** : The id of the competency
+
+   `modifier isCompetencyCreator(address account, uint24 competencyId) {}`
+  
+  ## IsCompetencyRepresentative
+
+   Check if an account is a representative for a competency
+
+   - **account** : The address of the account that is going to be verified
+   - **competencyId** : The id of the competency
+ 
+   `modifier isCompetencyRepresentative(address account, uint24 competencyId){}`
+ 
+ ## CompetencyExist
+
+   Check if a competency exist
+
+   - **competencyId** : The id of the competency
+ 
+   `modifier competencyExist(uint24 competencyId) {}`
+ 
+ ## CanEditByOwner
+
+   Check if an account has the owner's permission to edit
+
+   - **account** : The address of the account that is going to be verified
+   - **owner** : The address of the competency's owner
+   - **competencyId** : The id of the competency
+  
+   `modifier canEditByOwner(address account, address owner, uint256 competencyId) {}`
+
+ ## HasCompetency
+
+   Check if an account has a competency
+
+   - **account** : The address of the account that is going to be verified
+   - **competencyId** : The id of the competency
+ 
+   `modifier hasCompetency(address account, uint256 competencyId) {}`
+
+ ## HasBalance
+
+    Check if an account has a balance
+
+   - **account** : The address of the account that is going to be verified
+   - **competencyId** : The id of the competency
+   - **amount** : The amount of competencies
+  
+   `modifier hasBalance(address account, uint256 competencyId,uint256 amount) {}`
+
+ ## CanTransfer
+ 
+   Check if an account has the permission to transfer a amount of Competencies
+
+   - **competencyId** : The id of the competency
+   - **amount** : The amount of competencies
+   - **sender** : The address of the account that is going to be verified
+  
+   `modifier canTransfer(uint24 competencyId, uint256 amount ,  address sender) {}`
+   
 ## Methods
 
 ## CreateCompetency
