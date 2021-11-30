@@ -223,4 +223,3 @@
        address from,
        uint24 competencyId
    ) competencyExist(competencyId) view public returns (bool){}`  
-
