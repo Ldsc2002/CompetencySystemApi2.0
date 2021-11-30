@@ -3,9 +3,9 @@
 
    Create a Competency inside the system
   
-   - "from" : The address that is creating the competency
-   - "id" : The id of the competency in the external storing system
-   - "KEamount" : The amount of Knowledge Elements the competency has
+   - **from** : The address that is creating the competency
+   - **id** : The id of the competency in the external storing system
+   - **KEamount** : The amount of Knowledge Elements the competency has
    
  
    `function createCompetency(
@@ -24,7 +24,7 @@
 
    Get a competency by its id
  
-   - "pos" : The id of the competency in the external storing system
+   - **pos** : The id of the competency in the external storing system
 
    `function getCompetency(uint24 pos) competencyExist(pos) public view returns (Competency memory){}`
  
@@ -32,8 +32,8 @@
 
    Get the saved external storing id of the skill levels of an account
   
-   - "owner" : The address of the account that owns the skill levels
-   - "competencyId" : The id of the competency
+   - **owner** : The address of the account that owns the skill levels
+   - **competencyId** : The id of the competency
   
    `function getSkillLevel(
        address owner,
@@ -69,9 +69,9 @@
 
    Instantiate competency
   
-   - "from" : The address of the account that wants to mint the competency
-   - "competencyId" : The id of the competency
-   - "amount" : The amount that is going to be mint
+   - **from** : The address of the account that wants to mint the competency
+   - **competencyId** : The id of the competency
+   - **amount** : The amount that is going to be mint
   
  
    `function mintCompentecy(
@@ -84,10 +84,10 @@
    
   Award a competency to another wallet
   
-   - "from" : The address that is awarding the competency
-   - "to" : The address that is receiving the competency
-   - "competencyId" : The id of the competency
-   - "skillValuesId" : The id of the skill values in the external storing system
+   - **from** : The address that is awarding the competency
+   - **to** : The address that is receiving the competency
+   - **competencyId** : The id of the competency
+   - **skillValuesId** : The id of the skill values in the external storing system
 
   
    `function awardCompetency(
@@ -102,10 +102,10 @@
 
    Give owners permission to edit a Competencies skill values
   
-   - "from" : The address that is granting the permission
-   - "to" : The address that is receiving the permission
-   - "competencyId" : The id of the competency
-   - "permission" : The permission been granted
+   - **from** : The address that is granting the permission
+   - **to** : The address that is receiving the permission
+   - **competencyId** : The id of the competency
+   - **permission** : The permission been granted
  
    `function givePermissionFromOwner(
        address from, // who is granting the permission (the owner)
@@ -118,11 +118,11 @@
     
    Give permission to edit a Competencies skill values
   
-   - "from" : The address that is going to edit
-   - "owner" : The address that is granting the permission
-   - "to" : The address that is going to be edited
-   - "competencyId" : The id of the competency
-   - "permission" : The permission been granted
+   - **from** : The address that is going to edit
+   - **owner** : The address that is granting the permission
+   - **to** : The address that is going to be edited
+   - **competencyId** : The id of the competency
+   - **permission** : The permission been granted
 
    `function givePermissionFromCreator(
        address from, // who is granting the permission
@@ -136,9 +136,9 @@
    
    Obtain the creators permission that an account has to edit
   
-   - "from" : The address that wants to edit
-   - "owner" : The address that owns the competency
-   - "competencyId" : The id of the competency
+   - **from** : The address that wants to edit
+   - **owner** : The address that owns the competency
+   - **competencyId** : The id of the competency
 
 
    `function hasPermissionFromCreator(
@@ -151,9 +151,9 @@
 
    Obtain the owner's permission that an account has to edit
   
-   - "from" : The address that wants to edit
-   - "owner" : The address that owns the competency
-   - "competencyId" : The id of the competency
+   - **from** : The address that wants to edit
+   - **owner** : The address that owns the competency
+   - **competencyId** : The id of the competency
 
  
    `function hasPermissionFromOwner(
@@ -167,10 +167,10 @@
 
    Give transfer right to an account
   
-   - "from" : The address that granting the rights
-   - "to" : The address that is receiving the rights
-   - "competencyId" : The id of the competency
-   - "amount": The amount of Competencies that can be transfer
+   - **from** : The address that granting the rights
+   - **to** : The address that is receiving the rights
+   - **competencyId** : The id of the competency
+   - **amount**: The amount of Competencies that can be transfer
 
    `function asignTransferRights(
        address from,
@@ -183,10 +183,10 @@
 
    Get the amount of transfer right from an account
   
-   - "from" : The address that granting the rights
-   - "to" : The address that is receiving the rights
-   - "competencyId" : The id of the competency
-   - "amount": The amount of Competencies that can be transfer
+   - **from** : The address that granting the rights
+   - **to** : The address that is receiving the rights
+   - **competencyId** : The id of the competency
+   - **amount**: The amount of Competencies that can be transfer
    
  
    `function getTransferRights(
@@ -198,10 +198,10 @@
   
    Make an account the representative of the creator for a competency
   
-   - "from" : The address that granting the permission
-   - "to" : The address that is receiving the permission
-   - "competencyId" : The id of the competency
-   - "permission": The permission
+   - **from** : The address that granting the permission
+   - **to** : The address that is receiving the permission
+   - **competencyId** : The id of the competency
+   - **permission**: The permission
    
  
    `function makeComptencyRepresentative(
@@ -215,8 +215,8 @@
 
    Gets whether a address is a competency representative or not|
   
-   - "from" : The address to be checked
-   - "competencyId" : The id of the competency
+   - **from** : The address to be checked
+   - **competencyId** : The id of the competency
    
     
    `function isComptencyRepresentative(
