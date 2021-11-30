@@ -1,14 +1,17 @@
+# Competency storing system 
 
+### Competency structure 
 
-#Competency storing system 
-
-   //Competency stroting structure
-   //@atribute id: The id of the Competency in the external storing system
-   //@atribute KEamount: The amount of Knowledge Elements that the
    struct Competency {
        uint24 id;
        uint8 KEamount;
    }
+
+Competency stroting structure
+
+- **id**: The id of the Competency in the external storing system
+- **KEamount**: The amount of Knowledge Elements that the
+
   
    //Array of the store Competencies
    Competency[] private _competencys;
