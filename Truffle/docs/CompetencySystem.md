@@ -1,14 +1,7 @@
 
 
-pragma solidity ^0.8.0;
- 
-import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
- 
-contract CompetencySystem is ERC1155{
-  
-   ////////////////////CompetencySystem////////////////////
-  
- 
+#Competency storing system 
+
    //Competency stroting structure
    //@atribute id: The id of the Competency in the external storing system
    //@atribute KEamount: The amount of Knowledge Elements that the
