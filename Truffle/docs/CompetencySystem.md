@@ -1,112 +1,44 @@
-# Competency storing system 
-
-### Competency structure 
-
-   struct Competency {
-       uint24 id;
-       uint8 KEamount;
-   }
-
-Competency stroting structure
-
-- **id**: The id of the Competency in the external storing system
-- **KEamount**: The amount of Knowledge Elements that the
-
-  
-   //Array of the store Competencies
-   Competency[] private _competencys;
-  
-   mapping(bytes32 =>  uint24) private _skillLevels;
-   /////////////////////Permissions/////////////////////////
-  
-   //Mapping from Competencies ids to creator address
-   mapping(uint256 => address) private _competencyCreator;
-  
-   //Mapping from Competencies ids to Competencies representatives
-   mapping(uint24 => mapping(address => bool)) private _competencyRepresentative;
-   
-   //Mapping from a Competency id and an address to the amount it can transfer
-   mapping(bytes32 => uint256) private _canTransfer;
- 
-   //Mapping from a Competency id and an address to the creators permission to edit
-   mapping(bytes32 => mapping(address => bool)) private _canEditByCreator;
- 
-   //Mapping from a Competency id and an address to the owners permission to edit
-   mapping(bytes32 => mapping(address => bool)) private _canEditByOwner;
-  
-   /////////////////////Modifiers/////////////////////////
-  
-   //Check if an account is the creator of a competency
- 
-   modifier isCompetencyCreator(address account, uint24 competencyId) {}
-  
-   //Check if an account is a representative for a competency
- 
-   modifier isCompetencyRepresentative(address account, uint24 competencyId){}
- 
-   //Check if a competency exist
- 
-   modifier competencyExist(uint24 competencyId) {}
- 
-   //Check if an account has the owner's permission to edit
-  
-   modifier canEditByOwner(address account, address owner, uint256 competencyId) {}
-  
-   //Check if an account has a competency
- 
-   modifier hasCompetency(address account, uint256 competencyId) {}
-  
-   modifier hasBalance(address account, uint256 competencyId,uint256 amount) {}
-  
-   //Check if an account has the permission to transfer a amount of Competencies
-  
-   modifier canTransfer(uint24 competencyId, uint256 amount ,  address sender) {}
- 
-   /////////////////////Methods/////////////////////////
-  
-   constructor() ERC1155("") { }
- 
-   /*
+/*
    Create a Competency inside the system
   
-   @Param from : The address that is creating the competency
-   @Param id : The id of the competency in the external storing system
-   @Param KEamount : The amount of Knowledge Elements the competency has
+   - "from" : The address that is creating the competency
+   - "id" : The id of the competency in the external storing system
+   - "KEamount" : The amount of Knowledge Elements the competency has
    */
  
-   function createCompetency(
+   `function createCompetency(
        address from,
        uint24 id,
        uint8 KEamount
-   ) public {}
+   ) public {}`
  
    /*
    Get a competency by its id
    */
  
-   function getCompetencys() public view returns (Competency[] memory){
+   `function getCompetencys() public view returns (Competency[] memory){
        return _competencys;
    }
  
    /*
    Get a competency by its id
  
-   @Param pos : The id of the competency in the external storing system
+   - "pos" : The id of the competency in the external storing system
    */
   
-   function getCompetency(uint24 pos) competencyExist(pos) public view returns (Competency memory){
+   `function getCompetency(uint24 pos) competencyExist(pos) public view returns (Competency memory){
        return _competencys[pos];
    }
  
    /*
    Get the saved external storing id of the skill levels of an account
   
-   @Param owner : The address of the account that owns the skill levels
-   @Param competencyId : The id of the competency
+   - "owner" : The address of the account that owns the skill levels
+   - "competencyId" : The id of the competency
   
    */
   
-   function getSkillLevel(
+   `function getSkillLevel(
        address owner,
        uint24 competencyId
    ) competencyExist(competencyId) public view returns (uint24){
@@ -117,171 +49,169 @@ Competency stroting structure
    This method come from the ERC1155 but was disabled due to it not being suit for the competency system
    */
  
-   function safeTransferFrom( //Award competency
+   `function safeTransferFrom( //Award competency
        address from,
        address to,
        uint256 id,
        uint256 amount,
        bytes memory data
-   ) public virtual override {}
+   ) public virtual override {}`
  
    /*
    This method come from the ERC1155 but was disabled due to it not being suit for the competency system
    */
  
-   function safeBatchTransferFrom( //Award Competencies
+   `function safeBatchTransferFrom( //Award Competencies
        address from,
        address to,
        uint256[] memory ids,
        uint256[] memory amounts,
        bytes memory data
-   ) public virtual override {}
+   ) public virtual override {}`
   
     
    /*
   
    Instantiate competency
   
-   @Param from : The address of the account that wants to mint the competency
-   @Param competencyId : The id of the competency
-   @Param amount : The amount that is going to be mint
+   - "from" : The address of the account that wants to mint the competency
+   - "competencyId" : The id of the competency
+   - "amount" : The amount that is going to be mint
   
    */
  
-   function mintCompentecy(
+   `function mintCompentecy(
        address from,
        uint24 competencyId,
        uint24 amount
-   ) competencyExist(competencyId) isCompetencyRepresentative(from, competencyId) public {}
+   ) competencyExist(competencyId) isCompetencyRepresentative(from, competencyId) public {}`
   
    /*
   Award a competency to another wallet
   
-   @Param from : The address that is awarding the competency
-   @Param to : The address that is receiving the competency
-   @Param competencyId : The id of the competency
-   @Param skillValuesId : The id of the skill values in the external storing system
+   - "from" : The address that is awarding the competency
+   - "to" : The address that is receiving the competency
+   - "competencyId" : The id of the competency
+   - "skillValuesId" : The id of the skill values in the external storing system
    */
   
-   function awardCompetency(
+   `function awardCompetency(
        address from,
        address to,
        uint24 competencyId,
        uint24 skillValuesId
        //bytes memory data
-   ) competencyExist(competencyId) /*canTransfer(competencyId, 1, from)*/ hasBalance(from, competencyId, 1) public {}
+   ) competencyExist(competencyId) /*canTransfer(competencyId, 1, from)*/ hasBalance(from, competencyId, 1) public {}`
   
    /*
    Give owners permission to edit a Competencies skill values
   
-   @Param from : The address that is granting the permission
-   @Param to : The address that is receiving the permission
-   @Param competencyId : The id of the competency
-   @Param permission : The permission been granted
+   - "from" : The address that is granting the permission
+   - "to" : The address that is receiving the permission
+   - "competencyId" : The id of the competency
+   - "permission" : The permission been granted
    */
  
-   function givePermissionFromOwner(
+   `function givePermissionFromOwner(
        address from, // who is granting the permission (the owner)
        address to, // to whom the permission is been granted
        uint24 competencyId,
        bool permission
-   ) competencyExist(competencyId) /* hasCompetency(from, competencyId) */ public {}
+   ) competencyExist(competencyId) /* hasCompetency(from, competencyId) */ public {}`
   
     /*
    Give permission to edit a Competencies skill values
   
-   @Param from : The address that is going to edit
-   @Param owner : The address that is granting the permission
-   @Param to : The address that is going to be edited
-   @Param competencyId : The id of the competency
-   @Param permission : The permission been granted
+   - "from" : The address that is going to edit
+   - "owner" : The address that is granting the permission
+   - "to" : The address that is going to be edited
+   - "competencyId" : The id of the competency
+   - "permission" : The permission been granted
    */
  
-   function givePermissionFromCreator(
+   `function givePermissionFromCreator(
        address from, // who is granting the permission
        address owner, // who is the competency owner
        address to, // to whom the permission is been granted
        uint24 competencyId,
        bool permission
-   ) competencyExist(competencyId) isCompetencyRepresentative(from, competencyId) public {}
+   ) competencyExist(competencyId) isCompetencyRepresentative(from, competencyId) public {}`
   
    /*
    Obtain the creators permission that an account has to edit
   
-   @Param from : The address that wants to edit
-   @Param owner : The address that owns the competency
-   @Param competencyId : The id of the competency
+   - "from" : The address that wants to edit
+   - "owner" : The address that owns the competency
+   - "competencyId" : The id of the competency
    */
  
-   function hasPermissionFromCreator(
+   `function hasPermissionFromCreator(
        address from, //Who is updating the skill Values
        address owner,
        uint24 competencyId
-   ) competencyExist(competencyId) public view returns (bool){}
+   ) competencyExist(competencyId) public view returns (bool){}`
  
    /*
    Obtain the owner's permission that an account has to edit
   
-   @Param from : The address that wants to edit
-   @Param owner : The address that owns the competency
-   @Param competencyId : The id of the competency
+   - "from" : The address that wants to edit
+   - "owner" : The address that owns the competency
+   - "competencyId" : The id of the competency
    */
  
-   function hasPermissionFromOwner(
+   `function hasPermissionFromOwner(
        address from, //Who is updating the skill Values
        address owner,
        uint24 competencyId
-   ) competencyExist(competencyId) public view returns (bool){}
+   ) competencyExist(competencyId) public view returns (bool){}`
  
-   function asignTransferRights(
+   `function asignTransferRights(
        address from,
        address to,
        uint24 competencyId,
        uint256 amount
-   ) competencyExist(competencyId) isCompetencyRepresentative(from, competencyId) hasBalance(from, competencyId, amount) public  {}
+   ) competencyExist(competencyId) isCompetencyRepresentative(from, competencyId) hasBalance(from, competencyId, amount) public  {}`
  
    /*
    Give transfer right to an account
   
-   @Param from : The address that granting the rights
-   @Param to : The address that is receiving the rights
-   @Param competencyId : The id of the competency
-   @Param amount: The amount of Competencies that can be transfer
+   - "from" : The address that granting the rights
+   - "to" : The address that is receiving the rights
+   - "competencyId" : The id of the competency
+   - "amount": The amount of Competencies that can be transfer
    */
  
-   function getTransferRights(
+   `function getTransferRights(
        address from,
        uint24 competencyId
-   ) competencyExist(competencyId) view public returns (uint){}
+   ) competencyExist(competencyId) view public returns (uint){}`
   
     /*
    Make an account the representative of the creator for a competency
   
-   @Param from : The address that granting the permission
-   @Param to : The address that is receiving the permission
-   @Param competencyId : The id of the competency
-   @Param permission: The permission
+   - "from" : The address that granting the permission
+   - "to" : The address that is receiving the permission
+   - "competencyId" : The id of the competency
+   - "permission": The permission
    */
  
-   function makeComptencyRepresentative(
+   `function makeComptencyRepresentative(
        address from,
        address to,
        uint24 competencyId,
        bool permission
-   ) competencyExist(competencyId) isCompetencyCreator(from, competencyId) public {}
+   ) competencyExist(competencyId) isCompetencyCreator(from, competencyId) public {}`
  
    /*
    Gets whether a address is a competency representative
   
-   @Param from : The address to be checked
-   @Param competencyId : The id of the competency
+   - "from" : The address to be checked
+   - "competencyId" : The id of the competency
    */
  
-   function isComptencyRepresentative(
+    
+   `function isComptencyRepresentative(
        address from,
        uint24 competencyId
-   ) competencyExist(competencyId) view public returns (bool){}  
+   ) competencyExist(competencyId) view public returns (bool){}`  
 }
-
-
-
