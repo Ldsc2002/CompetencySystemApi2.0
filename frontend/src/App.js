@@ -2,89 +2,30 @@ import React, { Component } from 'react'
 import Web3 from 'web3'
 import './App.css'
 import { COMPETENCY_SYSTEM_ABI, COMPETENCY_SYSTEM_ADDRESS } from './config'
-import CompetencyCreator from './Components/CompetencyCreator';
-import ItemCreator from './Components/ItemCreator';
-import CompetencyConsultor from './Components/CompetencyConsultor';
-import CompetencyMiner from './Components/CompetencyMiner';
-import ItemConsultor from './Components/ItemConsultor';
-import CompetencyTransfer from './Components/CompetencyTransfer';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import EditPermission from './Components/EditPermission';
-import BalanceConsultor from './Components/BalanceConsultor';
-import SkillConsultor from './Components/SkillConsultor';
-import PermissionConsultor from './Components/PermissionConsultor';
-import Button from '@material-ui/core/Button';
-import ConsultTransferRights from './Components/ConsultTransferRights';
-import TransferRights from './Components/TransferRights';
+import CompetencyCreator from './Components/CompetencyCreator'
+import ItemCreator from './Components/ItemCreator'
+import CompetencyConsultor from './Components/CompetencyConsultor'
+import CompetencyMiner from './Components/CompetencyMiner'
+import ItemConsultor from './Components/ItemConsultor'
+import CompetencyTransfer from './Components/CompetencyTransfer'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import EditPermission from './Components/EditPermission'
+import BalanceConsultor from './Components/BalanceConsultor'
+import SkillConsultor from './Components/SkillConsultor'
+import PermissionConsultor from './Components/PermissionConsultor'
+import Button from '@material-ui/core/Button'
+import ConsultTransferRights from './Components/ConsultTransferRights'
+import TransferRights from './Components/TransferRights'
 import { 
-  getKnowledgeElements ,
-  createKnowledgeElements, 
-  getKnowledgeElement,
-  getDispositions,
-  createDispositions,
-  getDisposition,
-  getCompetencys,
-  createCompetencys,
-  getCompetency,
-  getSkillLevels,
-  createSkillLevels,
-  getSkillLevel,
-  patchSkillLevel
+  getKnowledgeElements, createKnowledgeElements, getKnowledgeElement,
+  getDispositions, createDispositions, getDisposition,
+  getCompetencys, createCompetencys, getCompetency,
+  getSkillLevels, createSkillLevels, getSkillLevel, patchSkillLevel
 } from './Components/functions'
 
-//ganache-cli --gasLimit=0x1fffffffffffff --gasPrice=0
-//$ json-server --watch db.json --port 3004
-
-const SKILLLEVELS = [ "Remembering", "Understanding", "Applying", "Analyzing", "Evaluating", "Creating"]
-
-
+const SKILLLEVELS = ["Remembering", "Understanding", "Applying", "Analyzing", "Evaluating", "Creating"]
 
 class App extends Component {
-
-  componentWillMount() {
-    this.loadBlockchainData()
-  }
-
-  async loadBlockchainData() {
-    const web3 = new Web3("http://127.0.0.1:8545")
-    const accounts = await web3.eth.getAccounts()
-    //console.log(COMPETENCY_SYSTEM_ABI)
-    this.setState({ accounts: accounts })
-    this.setState({ account: accounts[0] })
-    const competencySystem = new web3.eth.Contract(COMPETENCY_SYSTEM_ABI, COMPETENCY_SYSTEM_ADDRESS)
-    this.setState({ competencySystem })
-    //Get Json server data
-    this.loadData() 
-    this.loadCompetencys()
-    this.setState({ loading: false })
-  }
-
-  async loadData() {
-    const kes = await getKnowledgeElements();
-    this.setState({ knowledgeElements: kes })
-    const dis = await getDispositions();
-    this.setState({ dispositions: dis })
-  }
-
-  async loadCompetencys(){
-    let com = await getCompetencys();
-    const competencys = await this.state.competencySystem.methods.getCompetencys().call({from : this.state.account})
-    if (competencys.length > 0){
-      com.map((competency, index) => {
-        const id = competencys.map(
-          (c, i) => {
-            if (c[0] == competency.id){
-              return i
-            } else {
-              return undefined
-            }
-          }).find((element) => element !== undefined)
-        com[index]["blockId"] = id
-      })
-    }
-    this.setState({ competencys: com })
-  }
-
   constructor(props) {
     super(props)
     this.state = { 
@@ -92,10 +33,10 @@ class App extends Component {
       knowledgeElements: [],
       dispositions: [],
       competencys: [],
-      account : '',
+      account: '',
       loading: true
     }
-    //GETS
+
     this._createCompetency = this._createCompetency.bind(this)
     this._consultBalance = this._consultBalance.bind(this)
     this._mintCompetency = this._mintCompetency.bind(this)
@@ -113,373 +54,325 @@ class App extends Component {
     this.fill = this.fill.bind(this)
   }
 
-  async fill(){
-    this.setState({ loading: true })
-    //Map existing json-Server competencies, and create new ones on the blockchain
-    this.state.competencys.map(
-      (competency) => {
-        this.state.competencySystem.methods.createCompetency(
-          this.state.account, competency.id, competency.knowledgeElements.length
-        ).send({from : this.state.account}).then(
-          function(receipt){
-            console.log(receipt)
-          }
-        )
-      }
-    )
-    //update the state
-    let com = await getCompetencys();
-    const competencys = await this.state.competencySystem.methods.getCompetencys().call({from : this.state.account})
-    com.map((competency, index) => {
-      const id = competencys.map(
-        (c, i) => {
-           if (c[0] == competency.id){
-             return i
-           } 
-        }).find((element) => element !== undefined)
-      com[index]["blockId"] = id
-    })
-    this.setState({ competencys: com })
-    //this._mintCompetency(this.account, 0, 10)
+  componentWillMount() {
+    this.loadBlockchainData()
+  }
+
+  async loadBlockchainData() {
+    const web3 = new Web3("http://127.0.0.1:8545")
+    const accounts = await web3.eth.getAccounts()
+    this.setState({ accounts, account: accounts[0] })
+
+    const competencySystem = new web3.eth.Contract(COMPETENCY_SYSTEM_ABI, COMPETENCY_SYSTEM_ADDRESS)
+    this.setState({ competencySystem })
+
+    await this.loadData()
+    await this.loadCompetencys()
     this.setState({ loading: false })
   }
-  
-  /*////////////////////////////// Competencys ////////////////////////// */
+
+  async loadData() {
+    const knowledgeElements = await getKnowledgeElements()
+    const dispositions = await getDispositions()
+    this.setState({ knowledgeElements, dispositions })
+  }
+
+  async loadCompetencys() {
+    let com = await getCompetencys()
+    const competencys = await this.state.competencySystem.methods.getCompetencys().call({ from: this.state.account })
+
+    if (competencys.length > 0) {
+      com.forEach((competency, index) => {
+        const id = competencys.findIndex(c => c[0] === competency.id)
+        if (id !== -1) com[index]["blockId"] = id
+      })
+    }
+    this.setState({ competencys: com })
+  }
+
+  async fill() {
+    this.setState({ loading: true })
+    const { competencySystem, account, competencys } = this.state
+
+    competencys.forEach((competency) => {
+      competencySystem.methods.createCompetency(
+        account, competency.id, competency.knowledgeElements.length
+      ).send({ from: account }).then(console.log)
+    })
+
+    const updatedCompetencys = await getCompetencys()
+    const blockchainCompetencys = await competencySystem.methods.getCompetencys().call({ from: account })
+
+    updatedCompetencys.forEach((competency, index) => {
+      const id = blockchainCompetencys.findIndex(c => c[0] === competency.id)
+      if (id !== -1) updatedCompetencys[index]["blockId"] = id
+    })
+
+    this.setState({ competencys: updatedCompetencys, loading: false })
+  }
 
   async _createCompetency(account, obj) {
     if (account && obj) {
-      //Create Json server competency ///////////FIX
-      const oldIds = this.state.competencys.map((compentecy) => {return compentecy.id } )
-      const res = await createCompetencys(obj)
-      let com = await getCompetencys();
-      this.setState({ competencys: com })
-      const newIds = this.state.competencys.map((compentecy) => {return compentecy.id } )
-      //Get the new id
+      const oldIds = this.state.competencys.map((compentecy) => compentecy.id)
+      await createCompetencys(obj)
+
+      const newIds = this.state.competencys.map((compentecy) => compentecy.id)
       const id = newIds.filter((id) => !oldIds.includes(id))[0]
-      //Create competency in blockchain
+
       this.state.competencySystem.methods.createCompetency(
         account, id, obj.knowledgeElements.length
-      ).send({from : account}).then(
-        function(receipt){
-          console.log(receipt)
-        }
-      )
-      //update the state
+      ).send({ from: account }).then(console.log)
+
       this.loadCompetencys()
     }
   }
 
-  async _consultBalance(account){
-    const ids = this.state.competencys.map((compentecy) => { return compentecy.blockId })
-    const balance = await this.state.competencySystem.methods.balanceOfBatch(ids.map(id => {return account}), ids)
-    .call({from : this.state.account})
-    const response = this.state.competencys.map((compentecy, index) => { return {"name":compentecy.name, "amount": balance[index]} })
-    return response
+  async _consultBalance(account) {
+    const ids = this.state.competencys.map(compentecy => compentecy.blockId)
+    const balance = await this.state.competencySystem.methods.balanceOfBatch(ids.map(() => account), ids)
+      .call({ from: this.state.account })
+
+    return this.state.competencys.map((compentecy, index) => ({
+      name: compentecy.name,
+      amount: balance[index]
+    }))
   }
- 
-  async _mintCompetency(account, competencyId, amount){
-    let response;
+
+  async _mintCompetency(account, competencyId, amount) {
+    let response
     await this.state.competencySystem.methods.mintCompentecy(
-        account, competencyId, amount
-      ).send({from : account}).then(
-        function(receipt){
-          console.log(receipt)
-          response = null
-        },
-        function(reason){
-          response = reason.message.substring(65).trim()
-        }
-      )
+      account, competencyId, amount
+    ).send({ from: account }).then(console.log, reason => {
+      response = reason.message.substring(65).trim()
+    })
     return response
   }
 
-  async _awardCompetency(from, to, competencyId, skillValues){
-    let response
-    const isAuthorized = await this.state.competencySystem.methods.hasPermissionFromCreator( from, to, competencyId ).call({from : this.state.account})
-    const obj = {
-      records : [
-        {
-          "author": from, 
-          "isAuthorized": isAuthorized,
-          "value": skillValues
-        }
-      ]
-    }
-    //Create Json server competency
-    const oldIds = (await getSkillLevels()).map(id => {return id.id})
-    const res = await createSkillLevels(obj)
-    const newIds = (await getSkillLevels()).map(id => {return id.id})
-    //Get the new id
-    let msg; 
+  async _awardCompetency(from, to, competencyId, skillValues) {
+    const isAuthorized = await this.state.competencySystem.methods.hasPermissionFromCreator(from, to, competencyId)
+      .call({ from: this.state.account })
+    
+    const oldIds = (await getSkillLevels()).map(id => id.id)
+    await createSkillLevels({ records: [{ author: from, isAuthorized, value: skillValues }] })
+
+    const newIds = (await getSkillLevels()).map(id => id.id)
     const id = newIds.filter((id) => !oldIds.includes(id))[0]
-    await this.state.competencySystem.methods.awardCompetency(
-      from, to, competencyId, id
-    ).send({from : from}).then(
-      function(receipt){
-        msg = ""
-      },
-      function(reason){
-        msg = reason.message.substring(65).trim()
-      }
-    )
+
+    let msg
+    await this.state.competencySystem.methods.awardCompetency(from, to, competencyId, id)
+      .send({ from }).then(() => { msg = "" }, reason => { msg = reason.message.substring(65).trim() })
+
     return msg
   }
- 
-  async _updateCompetency(from, to, competencyId, skillValues){
-    let response
-    const isAuthorizedByCreator = await this.state.competencySystem.methods.hasPermissionFromCreator( from, to, competencyId ).call({from : this.state.account})
-    const isAuthorizedByOwner = await this.state.competencySystem.methods.hasPermissionFromOwner( from, to, competencyId ).call({from : this.state.account})
+
+  async _updateCompetency(from, to, competencyId, skillValues) {
+    const isAuthorizedByOwner = await this.state.competencySystem.methods.hasPermissionFromOwner(from, to, competencyId)
+      .call({ from: this.state.account })
+
     if (isAuthorizedByOwner) {
-      const skillsId = await this.state.competencySystem.methods.getSkillLevel(to, competencyId).call({from : this.state.account})
-      //console.log("values", from, to, competencyId, skillValues, skillsId)
+      const skillsId = await this.state.competencySystem.methods.getSkillLevel(to, competencyId)
+        .call({ from: this.state.account })
+      
       const skillsValues = await getSkillLevel(skillsId)
-      const obj = 
-      {
-        "records": [
-          {
-            "author": from, 
-            "isAuthorized": isAuthorizedByCreator,
-            "value": skillValues
-          }
-          , ...skillsValues.records
-        ]
-      }
-      //skillsValues.records.push(obj)
-      const res = await patchSkillLevel(skillsId, obj)
+      const obj = { records: [{ author: from, value: skillValues }, ...skillsValues.records] }
+      await patchSkillLevel(skillsId, obj)
       return ""
     } else {
-      return ("No cuenta con permiso")
+      return "No cuenta con permiso"
     }
   }
- 
-  async _consultSkillLevel(account, competencyId){
-    console.log("Consult",  account, competencyId)
-    let skillsId 
-    await this.state.competencySystem.methods.getSkillLevel(account, competencyId)
-    .call({from : this.state.account}).then(
-      function(receipt){
-        skillsId = receipt
-      },
-      function(reason){
-        console.log(reason.message)
-      }
-    )
-    console.log("skill", skillsId);
-    if (skillsId != 0){
+
+  async _consultSkillLevel(account, competencyId) {
+    const skillsId = await this.state.competencySystem.methods.getSkillLevel(account, competencyId)
+      .call({ from: this.state.account })
+
+    if (skillsId != 0) {
       const skillsValues = await getSkillLevel(skillsId)
       const competency = await getCompetency(competencyId + 1)
+
       const knowledgeElements = this.state.knowledgeElements.filter(
-        (knowledgeElement) => competency.knowledgeElements.includes(knowledgeElement.id) 
-      ).map(
-        (knowledgeElement) => {return knowledgeElement.name}
-      )
-      skillsValues.records.map( 
-        (record) => (
-          record.value = record.value.map((value, i) => {
-            return knowledgeElements[i]+":"+value
-          })
-        )
-      ) 
-      const response = skillsValues.records
-      return response
+        (ke) => competency.knowledgeElements.includes(ke.id)
+      ).map(ke => ke.name)
+
+      skillsValues.records.forEach(record => {
+        record.value = record.value.map((value, i) => `${knowledgeElements[i]}:${value}`)
+      })
+
+      return skillsValues.records
     }
   }
 
-  async _consultPermissionFromCreator(from, to, competencyId){
-    const response = await this.state.competencySystem.methods.hasPermissionFromCreator(from, to, competencyId).call({from : this.state.account})
-    return response
+  async _consultPermissionFromCreator(from, to, competencyId) {
+    return await this.state.competencySystem.methods.hasPermissionFromCreator(from, to, competencyId)
+      .call({ from: this.state.account })
   }
 
-  async _consultPermissionFromOwner(from, to, competencyId){
-    const response = await this.state.competencySystem.methods.hasPermissionFromOwner(from, to, competencyId).call({from : this.state.account})
-    return response
+  async _consultPermissionFromOwner(from, to, competencyId) {
+    return await this.state.competencySystem.methods.hasPermissionFromOwner(from, to, competencyId)
+      .call({ from: this.state.account })
   }
 
-  async _givePermissionFromCreator(creator, from, to, competencyId, permission){
-    this.state.competencySystem.methods.givePermissionFromCreator(
+  async _givePermissionFromCreator(creator, from, to, competencyId, permission) {
+    await this.state.competencySystem.methods.givePermissionFromCreator(
       creator, from, to, competencyId, permission
-    ).send({from : from}).then(
-      function(receipt){
-        console.log(receipt)
-      }
-    )
-    const response = await this.state.competencySystem.methods.hasPermissionFromCreator(from, to, competencyId).call({from : this.state.account})
+    ).send({ from }).then(console.log)
+
+    return await this.state.competencySystem.methods.hasPermissionFromCreator(from, to, competencyId)
+      .call({ from: this.state.account })
   }
 
-  async _givePermissionFromOwner(from, to, competencyId, permission){
-    this.state.competencySystem.methods.givePermissionFromOwner(
+  async _givePermissionFromOwner(from, to, competencyId, permission) {
+    await this.state.competencySystem.methods.givePermissionFromOwner(
       from, to, competencyId, permission
-    ).send({from : from}).then(
-      function(receipt){
-        console.log(receipt)
-      }
-    )
-    const response = await this.state.competencySystem.methods.hasPermissionFromOwner(to, from, competencyId).call({from : this.state.account})
+    ).send({ from }).then(console.log)
+
+    return await this.state.competencySystem.methods.hasPermissionFromOwner(to, from, competencyId)
+      .call({ from: this.state.account })
   }
 
-  async _consultTransferRights(from, competencyId){
-    const response = await this.state.competencySystem.methods.getTransferRights(from, competencyId).call({from : this.state.account})
-    return response
+  async _consultTransferRights(from, competencyId) {
+    return await this.state.competencySystem.methods.getTransferRights(from, competencyId)
+      .call({ from: this.state.account })
   }
 
-  async _isCompetencyRepresentative(from, competencyId){
-    const response = await this.state.competencySystem.methods.isComptencyRepresentative(from, competencyId).call({from : this.state.account})
-    return response
+  async _isCompetencyRepresentative(from, competencyId) {
+    return await this.state.competencySystem.methods.isComptencyRepresentative(from, competencyId)
+      .call({ from: this.state.account })
   }
 
-  async _asignTransferRights(from, to, competencyId, amount){
+  async _asignTransferRights(from, to, competencyId, amount) {
     let response
-    await this.state.competencySystem.methods.asignTransferRights(
-      from, to, competencyId, amount
-    ).send({from : from}).then(
-      function(receipt){
-        console.log(receipt)
-      },
-      function(reason){
+    await this.state.competencySystem.methods.asignTransferRights(from, to, competencyId, amount)
+      .send({ from }).then(console.log, reason => {
         response = reason.message.substring(65).trim()
-      }
-    )
+      })
     return response
   }
 
-  async _makeComptencyRepresentative(from, to, competencyId, permission){
-    console.log(from, to, competencyId, permission)
+  async _makeComptencyRepresentative(from, to, competencyId, permission) {
     let response
     await this.state.competencySystem.methods.makeComptencyRepresentative(
       from, to, competencyId, permission
-    ).send({from : from}).then(
-      function(receipt){
-        console.log(receipt)
-      },
-      function(reason){
-        response = reason.message.substring(65).trim()
-      }
-    )
+    ).send({ from }).then(console.log, reason => {
+      response = reason.message.substring(65).trim()
+    })
     return response
   }
 
-  /*//////////////////////////////  ////////////////////////// */
-
-
   render() {
-    console.log(this.state)
+    const { loading, accounts, knowledgeElements, dispositions, competencys } = this.state
+
     return (
-      <div style={{height: '100vh'}}>
-        { (!this.state.loading) &&
-        <>          
-          <Button 
-            size="medium" 
-            variant="outlined" 
-            color="secondary"
-            onClick={
-              () => this.fill()
-            }>
-            LLenar
-          </Button>
-          <br/>
-          <div style={{display: 'flex'}}>
-            <CompetencyCreator
-              accounts = {this.state.accounts}
-              knowledgeElements = {this.state.knowledgeElements ? this.state.knowledgeElements : []}
-              dispositions = {this.state.dispositions ? this.state.dispositions : []}
-              createCompetency = {this._createCompetency}
-            />
-             <ItemCreator
-              createKnowledgeElement = { (value) => {
-                this.setState({ loading: true })
-                createKnowledgeElements(value) 
-                this.loadData()
-                this.setState({ loading: false })
-              }}
-              createDispositions = { (value) => { 
-                this.setState({ loading: true })
-                createDispositions(value) 
-                this.loadData()
-                this.setState({ loading: false })
-              }}
-            />
-            <div style={{display: 'flex', flexDirection: 'column'}}>
-              <ItemConsultor // Permisos de edición
-                accounts = {this.state.accounts}
-                knowledgeElements = {this.state.knowledgeElements ? this.state.knowledgeElements : []}
-                dispositions = {this.state.dispositions ? this.state.dispositions : []}
-                knowledgeElementsMethod = {(value) => getKnowledgeElement(value)}
-                dispositionsMethod = {(value) => getDisposition(value)}
-              />  
-              <CompetencyConsultor //Asignacion de representante
-                competencys = {this.state.competencys ? this.state.competencys  : []}
-                knowledgeElements = {this.state.knowledgeElements ? this.state.knowledgeElements : []}
-                dispositions = {this.state.dispositions ? this.state.dispositions : []}
-                competencysMethod = { (value) => getCompetency(value) }
-              />  
-            </div>        
-          </div>
-          <div style={{display: 'flex'}}>
-            <CompetencyMiner 
-              competencys = {this.state.competencys ? this.state.competencys  : []}
-              accounts = {this.state.accounts}         
-              competencysMethod = { (value1, value2, value3) => this._mintCompetency(value1, value2, value3) }
-            />
-            <div style={{display: 'flex', flexDirection: 'column'}}>
-              <BalanceConsultor
-                accounts = {this.state.accounts} 
-                balanceMethod = {this._consultBalance}
-              />
-              <SkillConsultor // Permisos de edición
-                accounts = {this.state.accounts}
-                competencys = {this.state.competencys ? this.state.competencys  : []}
-                method = {this._consultSkillLevel}
-              />
-            </div>  
-            <TransferRights // Permisos de edición
-              accounts = {this.state.accounts}
-              competencys = {this.state.competencys ? this.state.competencys  : []}
-              methodRights = {this._asignTransferRights}
-              methodRepresentative = {this._makeComptencyRepresentative}
-            /> 
-            <ConsultTransferRights // Permisos de edición
-              accounts = {this.state.accounts}
-              competencys = {this.state.competencys ? this.state.competencys  : []}
-              methodRights = {this._consultTransferRights}
-              methodRepresentative = {this._isCompetencyRepresentative}
-            />  
-          </div>
-          <div style={{display: 'flex'}}>
-            <CompetencyTransfer
-              competencys = {this.state.competencys ? this.state.competencys  : []}
-              knowledgeElements = {this.state.knowledgeElements ? this.state.knowledgeElements : []}
-              accounts = {this.state.accounts}
-              skillLevels = {SKILLLEVELS}
-              awardMethod = {this._awardCompetency}
-              updateMethod = {this._updateCompetency}
-            /> 
-            <EditPermission
-              accounts = {this.state.accounts}
-              competencys = {this.state.competencys ? this.state.competencys  : []}
-              methodOwner = {this._givePermissionFromOwner}
-              methodCreator = {this._givePermissionFromCreator}
-            /> 
-            <PermissionConsultor // Permisos de edición
-              accounts = {this.state.accounts}
-              competencys = {this.state.competencys ? this.state.competencys  : []}
-              methodOwner = {this._consultPermissionFromOwner}
-              methodCreator = {this._consultPermissionFromCreator}
-            />    
-          </div>
-        </>
-        }
-        { (this.state.loading) &&
-          <div style={{display: 'flex', justifyContent: "center", alignItems: "center", height: '100%'}}>
-            <CircularProgress 
+      <div style={{ height: '100vh' }}>
+        {!loading ? (
+          <>
+            <Button
+              size="medium"
+              variant="outlined"
               color="secondary"
-              size={200}/>
-          </div>          
-        }
+              onClick={this.fill}
+            >
+              Llenar
+            </Button>
+            <br />
+            <div style={{ display: 'flex' }}>
+              <CompetencyCreator
+                accounts={accounts}
+                knowledgeElements={knowledgeElements}
+                dispositions={dispositions}
+                createCompetency={this._createCompetency}
+              />
+              <ItemCreator
+                createKnowledgeElement={(value) => {
+                  this.setState({ loading: true })
+                  createKnowledgeElements(value)
+                  this.loadData()
+                  this.setState({ loading: false })
+                }}
+                createDispositions={(value) => {
+                  this.setState({ loading: true })
+                  createDispositions(value)
+                  this.loadData()
+                  this.setState({ loading: false })
+                }}
+              />
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <ItemConsultor
+                  accounts={accounts}
+                  knowledgeElements={knowledgeElements}
+                  dispositions={dispositions}
+                  knowledgeElementsMethod={getKnowledgeElement}
+                  dispositionsMethod={getDisposition}
+                />
+                <CompetencyConsultor
+                  competencys={competencys}
+                  knowledgeElements={knowledgeElements}
+                  dispositions={dispositions}
+                  competencysMethod={getCompetency}
+                />
+              </div>
+            </div>
+            <div style={{ display: 'flex' }}>
+              <CompetencyMiner
+                competencys={competencys}
+                accounts={accounts}
+                competencysMethod={this._mintCompetency}
+              />
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <BalanceConsultor
+                  accounts={accounts}
+                  balanceMethod={this._consultBalance}
+                />
+                <SkillConsultor
+                  accounts={accounts}
+                  competencys={competencys}
+                  method={this._consultSkillLevel}
+                />
+              </div>
+              <TransferRights
+                accounts={accounts}
+                competencys={competencys}
+                methodRights={this._asignTransferRights}
+                methodRepresentative={this._makeComptencyRepresentative}
+              />
+              <ConsultTransferRights
+                accounts={accounts}
+                competencys={competencys}
+                methodRights={this._consultTransferRights}
+                methodRepresentative={this._isCompetencyRepresentative}
+              />
+            </div>
+            <div style={{ display: 'flex' }}>
+              <CompetencyTransfer
+                competencys={competencys}
+                knowledgeElements={knowledgeElements}
+                accounts={accounts}
+                skillLevels={SKILLLEVELS}
+                awardMethod={this._awardCompetency}
+                updateMethod={this._updateCompetency}
+              />
+              <EditPermission
+                accounts={accounts}
+                competencys={competencys}
+                methodOwner={this._givePermissionFromOwner}
+                methodCreator={this._givePermissionFromCreator}
+              />
+              <PermissionConsultor
+                accounts={accounts}
+                competencys={competencys}
+                methodOwner={this._consultPermissionFromOwner}
+                methodCreator={this._consultPermissionFromCreator}
+              />
+            </div>
+          </>
+        ) : (
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+            <CircularProgress color="secondary" size={200} />
+          </div>
+        )}
       </div>
-      
-    );
+    )
   }
 }
 
-
-export default App;
+export default App
