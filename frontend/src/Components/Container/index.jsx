@@ -15,69 +15,67 @@ const useStyles = makeStyles({
     margin: '1px',
   },
   title: {
-    fontSize: 14
+    fontSize: 14,
   },
-  content: {
-    //size: '100%'
-  }
 });
 
 const Container = (props) => {
-    const classes = useStyles();
-    //console.log(props);
-    return (
-      <Card className={classes.root} variant="outlined">
-        <CardContent>
-          <Typography
-            className={classes.title}
-            color="textSecondary"
-            gutterBottom
-          >
-            {props.title}
-          </Typography>
-          { props.type === "textInput" &&
-            <TextInput
-              placeHolder = {props.placeHolder}
-              value = {props.value}
-              updateMethod = {(newValue) => props.updateMethod(newValue)}
-              rows = {props.rows}
-            /> 
-          }
-          { props.type === "multiSelect" &&
-            <MultiComboBox
-              placeHolder = {props.placeHolder}
-              options = {props.options}
-              value = {props.value}
-              updateMethod = {(newValue) => props.updateMethod(newValue)}
-            /> 
-          }
-          { props.type === "transferBlock" &&
-            <TransferBlock
-              accounts = {props.options}
-              options = {props.extraOptions}
-              value = {props.value}
-              updateMethod = {(newValue) => props.updateMethod(newValue)}
-            /> 
-          }
-          { props.type === "transferBlockRedux" &&
-            <TransferBlockRedux
-              accounts = {props.options}
-              options = {props.extraOptions}
-              value = {props.value}
-              updateMethod = {(newValue) => props.updateMethod(newValue)}
-            /> 
-          }
-          { props.type === "selectListElement" &&
-            <SelecListElement
-              skills = {props.extraOptions}
-              options = {props.options}
-              value = {props.value}
-              updateMethod = {(newValue) => props.updateMethod(newValue)}
-            /> 
-          }
-        </CardContent>
-      </Card>
-    );
-}
+  const classes = useStyles();
+
+  return (
+    <Card className={classes.root} variant="outlined">
+      <CardContent>
+        <Typography className={classes.title} color="textSecondary" gutterBottom>
+          {props.title}
+        </Typography>
+
+        {props.type === "textInput" && (
+          <TextInput
+            placeHolder={props.placeHolder}
+            value={props.value}
+            updateMethod={props.updateMethod}
+            rows={props.rows}
+          />
+        )}
+
+        {props.type === "multiSelect" && (
+          <MultiComboBox
+            placeHolder={props.placeHolder}
+            options={props.options}
+            value={props.value}
+            updateMethod={props.updateMethod}
+          />
+        )}
+
+        {props.type === "transferBlock" && (
+          <TransferBlock
+            accounts={props.options}
+            options={props.extraOptions}
+            value={props.value}
+            updateMethod={props.updateMethod}
+          />
+        )}
+
+        {props.type === "transferBlockRedux" && (
+          <TransferBlockRedux
+            accounts={props.options}
+            options={props.extraOptions}
+            value={props.value}
+            updateMethod={props.updateMethod}
+          />
+        )}
+
+        {props.type === "selectListElement" && (
+          <SelecListElement
+            skills={props.extraOptions}
+            options={props.options}
+            value={props.value}
+            updateMethod={props.updateMethod}
+          />
+        )}
+      </CardContent>
+    </Card>
+  );
+};
 
 export default Container;

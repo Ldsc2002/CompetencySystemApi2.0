@@ -1,142 +1,92 @@
-import React, {useState} from 'react';
-import styles from './transferRights.module.css';
-import Button from '@material-ui/core/Button';
-import ComboBox from '../ComboBox';
-import Switch from '@material-ui/core/Switch';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import AlertButton from '../AlertButton';
-import Container from '../Container';
-import TextField from "@material-ui/core/TextField";
+const SERVER_URL = "http://localhost:3004";
 
-const TransferRights = (props) => {
+/*////////////////////////////// Knowledge Elements ////////////////////////// */
 
-  const [transferInputs, setTransferInputs] = useState([])
-  const [state, setState] = React.useState(true);
-  const [permissions, setPermissions] = useState("Dar permiso")
-  const handleChange = () => {
-    setState(!state);
-  };
+export const getKnowledgeElements = async () => {
+  const res = await fetch(`${SERVER_URL}/knowledgeElements`);
+  return res.json();
+};
 
-  const [amount, setAmount] = useState(1)
+export const createKnowledgeElements = async (newKe) => {
+  await fetch(`${SERVER_URL}/knowledgeElements`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(newKe),
+  });
+};
 
-  const handleChangeTextInput = (event) => {
-    setAmount(event.target.value);
-  };
+export const getKnowledgeElement = async (id) => {
+  const res = await fetch(`${SERVER_URL}/knowledgeElements/${id}`);
+  return res.json();
+};
 
-  const config = [
-    {
-      type:"transferBlock", 
-      state: transferInputs,
-      method: setTransferInputs,
-      options: props.accounts,
-      extraOptions: props.competencys.map((c) => {return c.name})
-    },
-  ]
-  const PERMISSIONS = ["Dar permiso", "Quitar permiso"]
-  const selectedCompetencyName = (transferInputs.length > 0 && transferInputs[2] != "" ) ? transferInputs[2] : "" 
-  const selectedCompetency = props.competencys.filter(competency => competency.name == selectedCompetencyName)[0]
+/*////////////////////////////// Dispositions ////////////////////////// */
 
-  const method = async () => {
-    if (transferInputs[0] && transferInputs[1] && selectedCompetency && (amount > 0 || permissions)) {
-      let response
-      (state) ?
-      response = await props.methodRepresentative(
-        transferInputs[0], 
-        transferInputs[1], 
-        selectedCompetency.blockId,
-        permissions === PERMISSIONS[0] ? true : false
-      )
-      :
-      response = await props.methodRights(
-        transferInputs[0], 
-        transferInputs[1], 
-        selectedCompetency.blockId,
-        amount
-      )
-      if (response == undefined){
-        return {"title": "Estado del permiso", "text": "El permiso se ha actualizado"}
-      } else {
-        return {"title": "Error", "text": response}  
-      }
-    } else {
-      return {"title": "Error", "text": "Ingrese todos lo campos de manera adecuada"}
-    }
+export const getDispositions = async () => {
+  const res = await fetch(`${SERVER_URL}/dispositions`);
+  return res.json();
+};
 
-  }
+export const createDispositions = async (dispo) => {
+  await fetch(`${SERVER_URL}/dispositions`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(dispo),
+  });
+};
 
-  const helpMethod = async () => {
-    return {
-      "title":"Módulo de transferencia de permisos de trasnferencia",
-      "text":"Este módulo se utiliza para brindar permisos de transferencia. Ya sea para establer un representante de una competencia o para establecer un intermediario. En el caso de los intermediarios es necesario establecer la cantidad de comptencias que se le delegaran. Para establecer un intermediario es necesario contar con el balance necesario para igual la cantidad de competencias que se le esta habilitando"
-    }
-  }
+export const getDisposition = async (id) => {
+  const res = await fetch(`${SERVER_URL}/dispositions/${id}`);
+  return res.json();
+};
 
-  return (      
-    <div className={styles.wrapper}>
-      <div style={{display:"flex", justifyContent: "space-between", width: '100%'}}>
-        <p className={styles.title}>Brindar permisos de transferencia</p>
-        <AlertButton
-          text={"?"}
-          method={(value) => helpMethod(value)}
-        />
-      </div>
-      <Typography component="div">
-          <Grid component="label" container alignItems="center" spacing={1}>
-            <Grid item>Representante</Grid>
-            <Grid item>
-              <Switch
-                checked={state.checkedA}
-                onChange={handleChange}
-                name="checkedA"
-                inputProps={{ 'aria-label': 'secondary checkbox' }}
-              />
-            </Grid>
-            <Grid item>Intermediario</Grid>
-          </Grid>
-        </Typography>
-        <br/>
-        { state && 
-          <ComboBox
-            value = {permissions}
-            options = {PERMISSIONS}
-            //defaultValue  ={}
-            method = {(value) => setPermissions(value)}
-            title = {"Seleccione el permiso"}
-          /> 
-        }
-        { !state && 
-          <TextField
-            id="standard-number"
-            label="Cantidad"
-            type="number"
-            style = {{marginLeft:6}}
-            value={amount}
-            onChange={handleChangeTextInput}
-          />
-        }
-        <div style={{display:'flex'}}>    
-          {config.map((value, index) => (
-            <Container
-              key = {index}
-              type = {value.type}
-              placeHolder = {value.placeHolder}
-              title = {value.title}
-              options = {value.options}
-              extraOptions = {value.extraOptions}
-              value = {value.state}
-              updateMethod = {value.method}
-              rows = {value.rows}
-            />
-          ))}     
-        </div>
-        <br/>
-        <AlertButton
-          text={"Brindar"}
-          method={() => method()}
-        />
-    </div>
-  );
-}
+/*////////////////////////////// Competencies ////////////////////////// */
 
-export default TransferRights;
+export const getCompetencys = async () => {
+  const res = await fetch(`${SERVER_URL}/competencys`);
+  return res.json();
+};
+
+export const createCompetencys = async (dispo) => {
+  const res = await fetch(`${SERVER_URL}/competencys`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(dispo),
+  });
+  return res;
+};
+
+export const getCompetency = async (id) => {
+  const res = await fetch(`${SERVER_URL}/competencys/${id}`);
+  return res.json();
+};
+
+/*////////////////////////////// Skill Levels ////////////////////////// */
+
+export const getSkillLevels = async () => {
+  const res = await fetch(`${SERVER_URL}/skillLevels`);
+  return res.json();
+};
+
+export const createSkillLevels = async (dispo) => {
+  const res = await fetch(`${SERVER_URL}/skillLevels`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(dispo),
+  });
+  return res;
+};
+
+export const getSkillLevel = async (id) => {
+  const res = await fetch(`${SERVER_URL}/skillLevels/${id}`);
+  return res.json();
+};
+
+export const patchSkillLevel = async (id, skill) => {
+  const res = await fetch(`${SERVER_URL}/skillLevels/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(skill),
+  });
+  return res;
+};
